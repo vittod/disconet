@@ -32,7 +32,7 @@ exports.escComp = (str) => {
 }
 
 exports.mailValid = (email) => {
-    let test = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+    let test = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]/
     return test.test(email)
 }
 

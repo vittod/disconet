@@ -3,12 +3,57 @@ const app = express();
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const csurf = require('csurf')
+
 const cs = require('cookie-session')
 const db = require('./utility/db')
+const uIf = require('./utility/userInputFormatter')
 
 /////////////////////  MIDDLEWARE 
 const isLoggedIn = (req, res, next) => req.session.isLoggedIn ? res.redirect('/') : next()
 const isLoggedOut = (req, res, next) => !req.session.isLoggedIn ? res.redirect('/welcome') : next()
+
+const validateUserInput = (req, res, next) => {
+    console.log('middle', req.body)
+    if (req.path === '/register') {
+        if (req.body.email && req.body.password && req.body.first && req.body.last) {
+            if (
+                uIf.sanitizer(req.body.first) === req.body.first
+                &&
+                uIf.sanitizer(req.body.last) === req.body.last
+            ) {
+                uIf.mailValid(req.body.email) ? next() : res.json({
+                    isLoggedIn: false,
+                    msg: 'your email is not valid'
+                })
+            } else {
+                res.json({
+                    isLoggedIn: false,
+                    msg: 'you are using invalid characters'
+                })
+            }
+        } else {
+            res.json({
+                isLoggedIn: false,
+                msg: 'all fields are required'
+            })
+        }
+    } else if (req.path === '/login') {
+        if (req.body.email && req.body.password) {
+            uIf.mailValid(req.body.email) ? next() : res.json({
+                isLoggedIn: false,
+                msg: 'your email is not valid'
+            })
+        } else {
+            res.json({
+                isLoggedIn: false,
+                msg: 'all fields are required'
+            })
+        }
+    } else {
+        next()
+    }
+}
+app.use((req, res,next) => {console.log('here', req.path); next()})
 
 app.use(cs({ maxAge: 1000 * 60 * 60 * 24 * 14, secret: process.env.SESSION_SECRET || require('./.secret.json').cookieS }))
 app.use(csurf());
@@ -35,7 +80,7 @@ if (process.env.NODE_ENV != 'production') {
 
 app.use(express.static(__dirname + '/public/'))
 
-app.post('/register',isLoggedIn, (req, res) => {
+app.post('/register',isLoggedIn, validateUserInput, (req, res) => {
     db.getUserByEmail(req.body.email)
         .then(({rows}) => {
             if (!rows.length) {
@@ -71,7 +116,7 @@ app.post('/register',isLoggedIn, (req, res) => {
     console.log(req.body)
 })
 
-app.post('/login', isLoggedIn, (req, res) => {
+app.post('/login', isLoggedIn, validateUserInput, (req, res) => {
     console.log('trying to login', req.body.email);
     db.getUserByEmail(req.body.email)
         .then(({rows}) => {
