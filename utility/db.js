@@ -33,8 +33,6 @@ exports.postUser = (nameFirst, nameLast, email, rawPass) => {
 
 exports.checkUser = (rawPass, hash) => {
     return hb.checkPass(rawPass, hash)
-        .then(passValid => passValid)
-        .catch(err => err)
 }
 
 
