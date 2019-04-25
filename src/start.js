@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Logo from './logo';
+import RegForm from './regForm';
 
 ReactDOM.render(
     <HelloWorld />,
@@ -8,6 +10,12 @@ ReactDOM.render(
 
 function HelloWorld() {
     return (
-        <div>Hello, World!</div>
+        <div className="main-container">
+            <Logo />
+            <div className="start-content">
+                <RegForm />
+            </div>
+        </div>
     );
 }
+
