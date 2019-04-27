@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Welcome from './welcome';
+import App from './app.js';
 
 let content 
 
 if (location.pathname === '/') {
-    content = (
-        <div>
-            <div> loggedin </div>
-            <div><a href="/logout">logout</a>  </div>
-        </div>
-    )
+    content = <App />
 } else {
     content = <Welcome />
 }

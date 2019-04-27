@@ -1,15 +1,15 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
-import Logo from './logo';
-import RegForm from './regForm';
-import LogForm from './logForm';
+import HeaderBar from './header-bar';
+import RegForm from './reg-form';
+import LogForm from './log-form';
 
 
 export default function Welcome() {
     return (
         <div className="main-container">
-            <Logo />
+            <HeaderBar /> 
             <div className="start-content">
                 <HashRouter>
                     <div>

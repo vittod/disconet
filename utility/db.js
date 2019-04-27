@@ -5,6 +5,9 @@ const { saniStrToNum, sanitizer, checkUrl } = require('./userInputFormatter');
 const dbUrl = process.env.DATABASE_URL || `postgres://${require('../.secret.json').dbAccess}@localhost:5432/socialnettwerk`;
 const db = spicedPg(dbUrl)
 
+///////////////////////// USER AND LOGIN
+/////////////////////////////////////////
+
 exports.getUserById = (userId) => {
     let q, params;
     q = 'SELECT * FROM users WHERE id_user = $1';
@@ -35,6 +38,25 @@ exports.checkUser = (rawPass, hash) => {
     return hb.checkPass(rawPass, hash)
 }
 
+///////////////////////// HANDLE IMG STUFF
+/////////////////////////////////////////
+
+exports.getById = (id) => {
+    q = `SELECT * FROM images WHERE id = $1`;
+    params = [id];
+    return db.query(q, params)
+}
+
+exports.postNewImg = (url, username, title, description) => {
+    let params = [url, username, title, description];
+    let q = `
+        INSERT INTO images (url, username, title, description)
+        VALUES ($1, $2, $3, $4) RETURNING id;`;
+    return db.query(q, params)
+}
+
+///////////////////////// GENERAL QUERIES
+/////////////////////////////////////////
 
 exports.deleteRow = (table, column, condition) => {
     let params = [];
