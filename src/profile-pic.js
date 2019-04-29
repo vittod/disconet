@@ -1,10 +1,9 @@
 import React from 'react';
 
-export default function ProfilePic({userSettings}) {
+export default function ProfilePic({userSettings, avatar}) {
     return (
         <div className="avatar" onClick={userSettings}>
-            <img src=""></img>
-            <i className="fas fa-user fa-4x"></i>
+            {avatar ? <img src={avatar}></img> : <i className="fas fa-user fa-4x"></i>}        
         </div>
     )
 }

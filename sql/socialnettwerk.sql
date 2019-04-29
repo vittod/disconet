@@ -16,7 +16,7 @@ CREATE TABLE users (
 CREATE TABLE images(
     id_img SERIAL PRIMARY KEY,
     id_user_fk INTEGER Not NULL,
-    url VARCHAR(300) NOT NULL,
+    url VARCHAR(500) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user_fk) REFERENCES users(id_user) ON DELETE CASCADE
 );
@@ -27,6 +27,7 @@ CREATE TABLE profiles (
     city VARCHAR(300),
     age INTEGER,
     avatar INTEGER REFERENCES images(id_img),
+    bio TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user_fk) REFERENCES users(id_user) ON DELETE CASCADE
 );
@@ -41,6 +42,12 @@ CREATE TABLE profiles (
 -- );
 
 
-INSERT INTO users (first_name, last_name, email, password) VALUES
-    ('azerimuth', 'bandistan', 'azze@band.star', 'xxxxxx');
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('azerimuth', 'bandistan', 'azze@band.star', '$2a$10$fSD/BxUelaatobOAR5s6qOLHxq5RfKhl8buCd7gv83WgFceWH2zae');
+
+INSERT INTO images (id_user_fk, url)
+VALUES (1, https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9LOPW.ico);
+
+INSERT INTO profiles (id_user_fk, city, age, avatar, bio)
+VALUES (1, 'Bonn', 55, 1, 'bla bla');
 

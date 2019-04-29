@@ -1,18 +1,14 @@
 const knox = require('knox-s3')
 const fs = require('fs')
 const path = require('path')
-const url = require('url')
 
-///////////
-// WARNING: maybe turn conditions back on..
-///////////
 
 let sec;
-// if (process.env.NODE_ENV == 'production') {
-//     sec = process.env; // in prod the secrets are environment variables
-// } else {
-    sec = require('../.secret');
-// }
+if (process.env.NODE_ENV == 'production') {
+    sec = process.env; // in prod the secrets are environment variables
+} else {
+    sec = require('../.secrets');
+}
 
 const client = knox.createClient({
     key: sec.AWS.AWS_KEY,
@@ -21,6 +17,7 @@ const client = knox.createClient({
 });
 
 exports.upload = function(req, res, next) {
+    console.log('got to s3..', req.file)
     if (!req.file) {
         return res.sendStatus(500);
     }
@@ -37,9 +34,7 @@ exports.upload = function(req, res, next) {
         if (s3Response.statusCode == 200) {
             res.locals.newImg = {
                 url: s3Response.req.url,
-                title: req.body.iTitle,
-                description: req.body.iDescr,
-                username: req.body.iUser
+                userId: req.body.iUser
             }
             next();
             fs.unlink(req.file.path, () => {});

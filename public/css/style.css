@@ -44,10 +44,86 @@ body {
     border-radius: 5%;
     padding: 5px;
 }
-avatar > img {
+.avatar > img {
     width: 56px;
     height: 64px;
 }
+
+.img-upload {
+    width: 95%;
+}
+
+.img-gallery {
+    width: 95%;
+    background: lightgrey;
+    display: flex;
+    align-items: center;
+}
+
+.img-wrapper {
+    width: 100px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+.img-wrapper > img {
+    height: 100px;
+}
+
+
+#box-upload {
+    background: #e9e4e6;
+    outline: 1px dashed black;
+    outline-offset: -5px;
+    min-height: 5rem;
+    /* width: 95%; */
+    padding-right: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+}
+#box-upload.box-upload-drag {
+    background: #f6f5f5;
+    outline-offset: -8px;
+}
+#box-upload label {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#box-upload input {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.files > * {
+    font-size: 0.5em;
+}
+#box-uploading {
+    background: #f6f5f5;
+    outline: 1px dashed black;
+
+    min-height: 5rem;
+    /* width: 95%; */
+    padding-right: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+    animation: 2s loading-line infinite;
+    animation-timing-function: linear;
+}
+
+
 
 .modal-outer {
     position: fixed;
@@ -64,6 +140,10 @@ avatar > img {
     width: 80%;
     height: 80%;
     background: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .net-form {
@@ -72,4 +152,17 @@ avatar > img {
     flex-direction: column;
     align-items: flex-end;
     margin: 40px;
+}
+
+
+@keyframes loading-line {
+    0% { outline-offset: -9px; }
+    12% { outline-offset: -8px; }
+    25% { outline-offset: -7px; }
+    36% { outline-offset: -6px; }
+    50% { outline-offset: -5px; }
+    62% { outline-offset: -4px; }
+    75% { outline-offset: -3px; }
+    89% { outline-offset: -2px; }
+    100% { outline-offset: -1px; }
 }

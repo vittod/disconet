@@ -1,23 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import axios from './axios';
+import axios from '../service/axios';
 
-export default class LogForm extends React.Component {
+export default class RegForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            first: '',
+            last: '',
             email: '',
             password: '',
             msg: ''
         }
 
+        console.log('hello')
         this.changeVal = this.changeVal.bind(this);
-        this.loginUser = this.loginUser.bind(this);
+        this.registerUser = this.registerUser.bind(this);
     }
 
-    loginUser() {
-        axios.post('/login', {
+    registerUser() {
+        axios.post('/register', {
+            first: this.state.first,
+            last: this.state.last,
             email: this.state.email,
             password: this.state.password
         }, {
@@ -27,6 +32,7 @@ export default class LogForm extends React.Component {
             .then(resp => {
                 console.log(resp.data);
                 if (resp.data.isLoggedIn) {
+                    localStorage.setItem('user', resp.data.isLoggedIn)
                     location.replace('/')
                 } else {
                     console.log(resp.data.msg)
@@ -45,10 +51,18 @@ export default class LogForm extends React.Component {
     render() {
         return (
             <div className="net-form">
-                <h2>login</h2>
+                <h2>register</h2>
                 <div className="msg">
                     <h4>{this.state.msg}</h4>
                 </div>
+                <label>
+                    first name
+                    <input name="first" onChange={this.changeVal} />
+                </label>
+                <label>
+                    last name
+                    <input name="last" onChange={this.changeVal} />
+                </label>
                 <label>
                     email
                     <input name="email" onChange={this.changeVal} />
@@ -57,9 +71,9 @@ export default class LogForm extends React.Component {
                     password
                     <input type="password" name="password" onChange={this.changeVal} />
                 </label>
-                <button onClick={this.loginUser}>login</button>
+                <button onClick={this.registerUser}>register</button>
                 <p>
-                    <Link to='/'>or would you like to register</Link>
+                    <Link to='/login'>or would you like to login</Link>
                 </p>
             </div>
         )

@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
-import HeaderBar from './header-bar';
+import HeaderBar from '../header-bar';
 import RegForm from './reg-form';
 import LogForm from './log-form';
 

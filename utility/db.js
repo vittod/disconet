@@ -2,11 +2,11 @@ const spicedPg = require('spiced-pg');
 const hb = require('./hashPass');
 const { saniStrToNum, sanitizer, checkUrl } = require('./userInputFormatter');
 
-const dbUrl = process.env.DATABASE_URL || `postgres://${require('../.secret.json').dbAccess}@localhost:5432/socialnettwerk`;
+const dbUrl = process.env.DATABASE_URL || `postgres://${require('../.secrets.json').dbAccess}@localhost:5432/socialnettwerk`;
 const db = spicedPg(dbUrl)
 
-///////////////////////// USER AND LOGIN
-/////////////////////////////////////////
+///////////////////////////////////////////// USER AND LOGIN
+////////////////////////////////////////////////////////////
 
 exports.getUserById = (userId) => {
     let q, params;
@@ -38,25 +38,54 @@ exports.checkUser = (rawPass, hash) => {
     return hb.checkPass(rawPass, hash)
 }
 
-///////////////////////// HANDLE IMG STUFF
-/////////////////////////////////////////
+/////////////////////////////////////////// HANDLE IMG STUFF
+////////////////////////////////////////////////////////////
 
-exports.getById = (id) => {
-    q = `SELECT * FROM images WHERE id = $1`;
+exports.getImgByUserAll = (id) => {
+    q = `SELECT * FROM images WHERE id_user_fk = $1`;
     params = [id];
     return db.query(q, params)
 }
 
-exports.postNewImg = (url, username, title, description) => {
-    let params = [url, username, title, description];
+exports.getAvatar = (id) => {
     let q = `
-        INSERT INTO images (url, username, title, description)
-        VALUES ($1, $2, $3, $4) RETURNING id;`;
+        SELECT images.id_user_fk, profiles.id_user_fk, avatar, url 
+        FROM profiles 
+        LEFT JOIN images 
+        ON profiles.avatar = images.id_img
+        WHERE profiles.id_user_fk = $1;
+    `;
+    params = [id];
     return db.query(q, params)
 }
 
-///////////////////////// GENERAL QUERIES
-/////////////////////////////////////////
+exports.setAvatar = (userId, imgId) => {
+    let q = `
+        INSERT INTO profiles (id_user_fk, avatar) 
+        VALUES ($1, $2)
+        ON CONFLICT (id_user_fk)
+        DO UPDATE SET avatar = $2;
+    `;
+    let params = [userId, imgId]
+    return db.query(q, params)
+}
+
+exports.postNewImg = (url, userId) => {
+    let params = [url, userId];
+    let q = `
+        INSERT INTO images (url, id_user_fk)
+        VALUES ($1, $2) RETURNING id_img;`;
+    return db.query(q, params)
+}
+
+//////////////////////////////////////////// GENERAL QUERIES
+////////////////////////////////////////////////////////////
+
+exports.getByColumn = (table, col, val) => {
+    q = `SELECT * FROM $1 WHERE s2 = $3`;
+    params = [table, col, val];
+    return db.query(q, params)
+}
 
 exports.deleteRow = (table, column, condition) => {
     let params = [];
