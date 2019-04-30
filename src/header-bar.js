@@ -1,8 +1,6 @@
 import React from 'react';
 import ProfilePic from './profile-pic';
 
-// import ErrorBoundary from './error-boundary';
-
 
 export default function HeaderBar({userSettings, loggedIn, avatar}) {
     return (

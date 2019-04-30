@@ -5,6 +5,8 @@ const app = module.exports.app = express();
 
 const authRouter = require('./routers/auth')
 const imgRouter = require('./routers/img')
+const profileRouter = require('./routers/profile')
+
 const mw = require('./middleware.js')
 
 
@@ -22,8 +24,9 @@ app.use(mw.bParserJ)
 
 app.use(express.static(__dirname + '/public/'))
 
-app.use(imgRouter)
 app.use(authRouter)
+app.use(imgRouter)
+app.use(profileRouter)
 
 app.get('/welcome', mw.isLoggedIn, (req, res) => {
     res.sendFile(__dirname + '/index.html')

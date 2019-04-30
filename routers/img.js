@@ -6,7 +6,7 @@ const path = require('path')
 
 const db = require('../utility/db')
 const s3 = require('../utility/s3')
-const {isLoggedIn, guard} = require('../middleware')
+const {guard} = require('../middleware')
 
 
 
@@ -50,12 +50,12 @@ imgRouter.get('/getAvatar', guard, (req, res) => {
 imgRouter.post('/setAvatar', guard, (req, res) => {
     console.log('set avatar..', req.body.imgId)
     db.setAvatar(req.session.isLoggedIn, req.body.imgId)
-        .then(({rows}) => {
-            console.log('set', rows);
+        .then(() => {
+            console.log('set');
             res.status(400)
         })
         .catch(err => {
-            res.status(404)
+            res.status(500)
             console.log('err set ava..', err);
         })
 })

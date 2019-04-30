@@ -1,9 +1,8 @@
 import React from 'react';
 import HeaderBar from './header-bar';
 import UserSettings from './user-settings';
+import Profile from './profile';
 import axios from './service/axios';
-
-// import ErrorBoundary from './error-boundary';
 
 
 
@@ -59,6 +58,8 @@ export default class App extends React.Component {
             <div>
                 <HeaderBar loggedIn="true" userSettings={this.showHide} avatar={this.state.avatar} /> 
                 {this.state.showSettingsModal && <UserSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} />}
+                <Profile userSettings={this.showHide} avatar={this.state.avatar} />
+
             </div>
         )
     }

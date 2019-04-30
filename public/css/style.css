@@ -48,6 +48,17 @@ body {
     width: 56px;
     height: 64px;
 }
+.avatar-bigger {
+   
+}
+.avatar-bigger > img {
+    width: 205px;
+    height: 235px;
+}
+.fas.fa-user.fa-5x {
+    transform: scale(3);
+    margin: 10%;
+}
 
 .img-upload {
     width: 95%;
@@ -71,7 +82,6 @@ body {
 .img-wrapper > img {
     height: 100px;
 }
-
 
 #box-upload {
     background: #e9e4e6;
@@ -123,8 +133,6 @@ body {
     animation-timing-function: linear;
 }
 
-
-
 .modal-outer {
     position: fixed;
     top: 0;
@@ -134,6 +142,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 500;
 }
 
 .user-settings {
@@ -154,6 +163,12 @@ body {
     margin: 40px;
 }
 
+.profile-area {
+    display: flex;
+}
+
+
+/*//////////////////////////////////// animations ////////////////////////////////////  */
 
 @keyframes loading-line {
     0% { outline-offset: -9px; }

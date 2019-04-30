@@ -82,8 +82,8 @@ exports.postNewImg = (url, userId) => {
 ////////////////////////////////////////////////////////////
 
 exports.getByColumn = (table, col, val) => {
-    q = `SELECT * FROM $1 WHERE s2 = $3`;
-    params = [table, col, val];
+    let q = `SELECT * FROM ${table} WHERE ${col} = $1;`;
+    params = [val];
     return db.query(q, params)
 }
 

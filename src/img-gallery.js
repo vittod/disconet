@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios';
+import axios from './service/axios';
 
 export default class ImgGallery extends React.Component {
     constructor(props) {

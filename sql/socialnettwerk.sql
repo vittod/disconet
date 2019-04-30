@@ -1,7 +1,7 @@
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS profiles;
+DROP TABLE IF EXISTS images;
+DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE users (
@@ -46,7 +46,7 @@ INSERT INTO users (first_name, last_name, email, password)
 VALUES ('azerimuth', 'bandistan', 'azze@band.star', '$2a$10$fSD/BxUelaatobOAR5s6qOLHxq5RfKhl8buCd7gv83WgFceWH2zae');
 
 INSERT INTO images (id_user_fk, url)
-VALUES (1, https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9LOPW.ico);
+VALUES (1, 'https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9LOPW.ico');
 
 INSERT INTO profiles (id_user_fk, city, age, avatar, bio)
 VALUES (1, 'Bonn', 55, 1, 'bla bla');
