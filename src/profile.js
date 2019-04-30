@@ -1,6 +1,7 @@
 import React from 'react'
 import ProfilePic from './profile-pic';
 import axios from './service/axios';
+import ProfileEdit from './profile-edit'
 
 
 export default class Profile extends React.Component {
@@ -18,10 +19,11 @@ export default class Profile extends React.Component {
     }
 
     async getProfile() {
+        console.log('got called')
         try {
             let {data} = await axios.get('/getProfile')
-            this.userState({profile: data})
-            console.log(data);
+            this.setState({profile: data[0]})
+            console.log('parent', this.state.profile);
         
         } catch (err) {
             console.log(err);
@@ -33,7 +35,7 @@ export default class Profile extends React.Component {
         return (
             <div className="profile-area">
                 <ProfilePic bigger="true" userSettings={this.props.userSettings} avatar={this.props.avatar} />
-                {/* <UserBio bio={this.state.profile} /> */}
+                <ProfileEdit profile={this.state.profile} editProfile={() => this.setState} refreshProfile={this.getProfile} />
             </div>
         )
     }

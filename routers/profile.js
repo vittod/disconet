@@ -8,7 +8,7 @@ const {guard} = require('../middleware')
 
 profileRouter.get('/getProfile', (req, res) => {
     console.log('get profile..')
-    db.getByColumn('profiles', 'id_user_fk', req.session.isLoggedIn) 
+    db.getProfileById(req.session.isLoggedIn) 
         .then(({rows}) => {
             console.log('index', rows);
             res.json(rows)
@@ -21,10 +21,10 @@ profileRouter.get('/getProfile', (req, res) => {
 
 profileRouter.post('/setProfile', guard, (req, res) => {
     console.log('set profile..', req.session.isLoggedIn)
-    db.setProfile(req.session.isLoggedIn, req.body.profile)
+    db.setProfile(req.session.isLoggedIn, req.body.bio, req.body.age, req.body.city)
         .then(() => {
             console.log('set');
-            res.status(400)
+            res.json({success: true})
         })
         .catch(err => {
             res.status(500)

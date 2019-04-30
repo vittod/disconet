@@ -9,8 +9,8 @@ export default function HeaderBar({userSettings, loggedIn, avatar}) {
             
             {loggedIn && 
                 <div className="nav-area">
-                <a href="/logout" onClick={() => localStorage.clear()}>logout</a>
-                <ProfilePic userSettings={userSettings} avatar={avatar} />
+                    <a href="/logout" onClick={() => localStorage.clear()}>logout</a>
+                    <ProfilePic userSettings={userSettings} avatar={avatar} />
                 </div>
             }
         </div>

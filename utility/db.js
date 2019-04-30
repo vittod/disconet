@@ -81,6 +81,32 @@ exports.postNewImg = (url, userId) => {
 //////////////////////////////////////////// GENERAL QUERIES
 ////////////////////////////////////////////////////////////
 
+exports.getProfileById = (id) => {
+    let q = `
+        SELECT id_prof, city, age, avatar, bio, first_name AS first, last_name AS last, email
+        FROM profiles                                                                                                                                                                                                             
+        RIGHT JOIN users                                                                                                                                                                                                           
+        ON id_user = id_user_fk 
+        WHERE id_user = $1;
+    `;
+    params = [id];
+    return db.query(q, params)
+}
+
+exports.setProfile = (userId, bio, age, city) => {
+    let q = `
+        INSERT INTO profiles (id_user_fk, bio, age, city) 
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT (id_user_fk)
+        DO UPDATE SET bio = $2, age = $3, city = $4;
+    `;
+    let params = [userId, bio, age, city]
+    return db.query(q, params)
+}
+
+//////////////////////////////////////////// PROFILE QUERIES
+////////////////////////////////////////////////////////////
+
 exports.getByColumn = (table, col, val) => {
     let q = `SELECT * FROM ${table} WHERE ${col} = $1;`;
     params = [val];
