@@ -1,4 +1,7 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
+import ProfilePic from './profile-pic';
 import axios from './service/axios'
 
 export default class ProfileBrowser extends React.Component {
@@ -17,8 +20,8 @@ export default class ProfileBrowser extends React.Component {
         axios.get(`/api/getProfile/${this.props.match.params.id}`)
             .then(({data}) => {
                 this.setState({profile: data[0]})
-                console.log('get user data', data)
-                console.log(this.state.profile.url)
+                // console.log('get user data', data)
+                // console.log(this.state.profile.url)
             })
             .catch(err => console.log('err user data', err))
 
@@ -48,9 +51,12 @@ export default class ProfileBrowser extends React.Component {
     render() {
         return (
             <div className="profile-area">
-                {/* <ProfilePic bigger="true" avatar={this.state.profile.url} /> */}
+                <ProfilePic bigger="true" avatar={this.state.profile.url} />
                 <h3> {this.state.profile.first} {this.state.profile.last} </h3>
                 {this.state.profile.bio ? this.renderProfile(this.state.profile) : this.renderDefault()}
+                
+                {/* SET THIS TO SMTH SECURE!!!! */}
+                {localStorage.getItem('user') === this.props.match.params.id && <Link to='/'>would you like to edit your site?</Link>}    
             </div>
         )
     }

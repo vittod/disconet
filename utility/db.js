@@ -96,12 +96,12 @@ exports.getProfileById = (id) => {
 exports.getOtherProfile = (id) => {
     let q = `
         SELECT  city, age, bio, first_name AS first, last_name AS last, url
-        FROM profiles 
-        LEFT JOIN users
-        ON profiles.id_user_fk = id_user
+        FROM users
+        LEFT JOIN profiles 
+        ON id_user = profiles.id_user_fk
         LEFT JOIN images
         ON avatar = images.id_img
-        WHERE profiles.id_user_fk = $1;
+        WHERE id_user = $1;
     `;
     params = [id];
     return db.query(q, params)
