@@ -32,5 +32,18 @@ profileRouter.post('/setProfile', guard, (req, res) => {
         })
 })
 
+profileRouter.get('/api/getProfile/:id', guard, (req, res) => {
+    console.log('get other profile..')
+    db.getOtherProfile(req.params.id) 
+        .then(({rows}) => {
+            console.log('index', rows);
+            res.json(rows)
+        })
+        .catch(err => {
+            console.log('prob getting profile..', err);
+            res.status(500)
+        })
+})
+
 
 module.exports = profileRouter

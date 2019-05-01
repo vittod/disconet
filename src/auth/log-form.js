@@ -60,7 +60,7 @@ export default class LogForm extends React.Component {
                 </label>
                 <button onClick={this.loginUser}>login</button>
                 <p>
-                    <Link to='/'>or would you like to register</Link>
+                    <Link to='/register'>or would you like to register</Link>
                 </p>
             </div>
         )

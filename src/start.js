@@ -5,10 +5,10 @@ import App from './app.js';
 
 let content 
 
-if (location.pathname === '/') {
-    content = <App />
-} else {
+if (location.pathname === '/welcome') {
     content = <Welcome />
+} else {
+    content = <App />
 }
 
 

@@ -13,12 +13,12 @@ export default class ImgUpload extends React.Component {
 
         let inputField;
         let dropzone;
-        
                 
         this.uploadFile = this.uploadFile.bind(this)
         this.handleFileSelect = this.handleFileSelect.bind(this)
         this.doClickOnInput = this.doClickOnInput.bind(this)
         this.handleDrop = this.handleDrop.bind(this)
+        this.renderError = this.renderError.bind(this)
     }
 
     componentDidMount() {
@@ -57,12 +57,20 @@ export default class ImgUpload extends React.Component {
             return axios.post('/postImg', upData)                
         }))
             .then((resp) => {
-                console.log(resp);
-                this.setState({showLoader: false})
+                console.log('post img success..', resp[0].data);
+                if (resp[0].status === 200) {
+                    this.setState({
+                        showLoader: false,
+                        files: []
+                    })
+                    this.props.triggerRefresh()
+                } else {
+                    this.renderError('something went wrong!')
+                }
             }) 
             .catch(err => {
                 console.log('err upload..', err);
-                this.setState({showLoader: false})
+                this.renderError('something went wrong!')
             })
     }
 
@@ -83,6 +91,13 @@ export default class ImgUpload extends React.Component {
         e.nativeEvent.stopImmediatePropagation();
         console.log(e.target.files)
         return false
+    }
+
+    renderError(msg) {
+        this.setState({
+            showLoader: false,
+            files: [{name: msg}]
+        })
     }
 
     render() {

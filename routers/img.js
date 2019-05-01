@@ -84,7 +84,10 @@ imgRouter.post('/postImg', guard, uploader.single('iFile'), s3.upload, (req, res
                     url: res.locals.newImg.url
                 });
             })
-            .catch(err => console.log('on route..', err))
+            .catch(err => {
+                res.json({success: false})
+                console.log('on route..', err)
+            })
     } else {
         res.json({
             success: false

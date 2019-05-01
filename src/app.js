@@ -1,8 +1,11 @@
 import React from 'react';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import axios from './service/axios';
 import HeaderBar from './header-bar';
 import UserSettings from './user-settings';
 import Profile from './profile';
-import axios from './service/axios';
+import ProfileBrowser from './profile-browser'
 
 
 
@@ -56,9 +59,14 @@ export default class App extends React.Component {
     render() {
         return ( 
             <div>
-                <HeaderBar loggedIn="true" userSettings={this.showHide} avatar={this.state.avatar} /> 
-                {this.state.showSettingsModal && <UserSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} />}
-                <Profile userSettings={this.showHide} avatar={this.state.avatar} />
+                <BrowserRouter>
+                    <div>
+                        <HeaderBar loggedIn="true" userSettings={this.showHide} avatar={this.state.avatar} /> 
+                        {this.state.showSettingsModal && <UserSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
+                        <Route exact path="/" render={() => (<Profile userSettings={this.showHide} avatar={this.state.avatar} />)} />
+                        <Route path="/user/:id" component={ProfileBrowser} />
+                    </div>
+                </BrowserRouter>
 
             </div>
         )

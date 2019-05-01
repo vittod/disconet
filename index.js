@@ -15,14 +15,14 @@ const mw = require('./middleware.js')
 app.use(mw.cs)
 app.use(mw.csurf)
 app.use(mw.cToken)
-app.use(mw.helmet)
+app.use(mw.helmet)     
 app.use(mw.compress)
 app.use(mw.bParserJ)
  
 
 ///////////////////// ROUTES
 
-app.use(express.static(__dirname + '/public/'))
+app.use(express.static(__dirname + '/public'))
 
 app.use(authRouter)
 app.use(imgRouter)
@@ -43,5 +43,5 @@ app.get('*', mw.isLoggedOut, (req, res) => {
 });
 
 app.listen(8080, function() {
-    console.log("I'm listening.")
+    console.log("server listening..")
 });

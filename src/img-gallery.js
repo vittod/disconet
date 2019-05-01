@@ -14,13 +14,15 @@ export default class ImgGallery extends React.Component {
 
     componentDidMount() {
         this.getAllImg()
+        if (this.props.triggerSet) this.props.triggerSet(this.getAllImg)
     }
 
     getAllImg() {
         axios.get('/getImgByUserAll')   
             .then(({data}) => {
                 console.log('resp..', data)
-                this.setState({images: data})
+                this.setState({images: data})    
+            
             })
             .catch(err => console.log('err..', err))
     }

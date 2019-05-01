@@ -78,7 +78,7 @@ exports.postNewImg = (url, userId) => {
     return db.query(q, params)
 }
 
-//////////////////////////////////////////// GENERAL QUERIES
+//////////////////////////////////////////// PROFILE QUERIES
 ////////////////////////////////////////////////////////////
 
 exports.getProfileById = (id) => {
@@ -88,6 +88,20 @@ exports.getProfileById = (id) => {
         RIGHT JOIN users                                                                                                                                                                                                           
         ON id_user = id_user_fk 
         WHERE id_user = $1;
+    `;
+    params = [id];
+    return db.query(q, params)
+}
+
+exports.getOtherProfile = (id) => {
+    let q = `
+        SELECT  city, age, bio, first_name AS first, last_name AS last, url
+        FROM profiles 
+        LEFT JOIN users
+        ON profiles.id_user_fk = id_user
+        LEFT JOIN images
+        ON avatar = images.id_img
+        WHERE profiles.id_user_fk = $1;
     `;
     params = [id];
     return db.query(q, params)
@@ -104,7 +118,7 @@ exports.setProfile = (userId, bio, age, city) => {
     return db.query(q, params)
 }
 
-//////////////////////////////////////////// PROFILE QUERIES
+//////////////////////////////////////////// GENERAL QUERIES
 ////////////////////////////////////////////////////////////
 
 exports.getByColumn = (table, col, val) => {
