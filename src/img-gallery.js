@@ -18,7 +18,7 @@ export default class ImgGallery extends React.Component {
     }
 
     getAllImg() {
-        axios.get('/getImgByUserAll')   
+        axios.get('/api/getImgByUserAll')   
             .then(({data}) => {
                 console.log('resp..', data)
                 this.setState({images: data})    

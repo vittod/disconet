@@ -1,6 +1,7 @@
 
 DROP TABLE IF EXISTS profiles;
 DROP TABLE IF EXISTS images;
+DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS users;
 
 
@@ -32,6 +33,16 @@ CREATE TABLE profiles (
     FOREIGN KEY (id_user_fk) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
+CREATE TABLE friends (
+    id_from INTEGER REFERENCES users(id_user) ON DELETE CASCADE,
+    id_to INTEGER REFERENCES users(id_user) ON DELETE CASCADE,
+    status VARCHAR(10),
+    PRIMARY KEY (id_from, id_to)
+);
+
+CREATE UNIQUE INDEX ifriends ON friends(GREATEST(id_from, id_to), LEAST(id_from, id_to));
+
+
 -- CREATE TABLE comments (
 --     id SERIAL PRIMARY key,
 --     id_img_fk INTEGER NOT NULL,
@@ -51,3 +62,6 @@ VALUES (1, 'https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9
 INSERT INTO profiles (id_user_fk, city, age, avatar, bio)
 VALUES (1, 'Bonn', 55, 1, 'bla bla');
 
+INSERT INTO friends VALUES (1, 2, 'pending'); 
+
+INSERT INTO friends VALUES (2, 1, 'pending'); 

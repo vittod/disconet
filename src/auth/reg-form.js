@@ -20,7 +20,7 @@ export default class RegForm extends React.Component {
     }
 
     registerUser() {
-        axios.post('/register', {
+        axios.post('/api/register', {
             first: this.state.first,
             last: this.state.last,
             email: this.state.email,

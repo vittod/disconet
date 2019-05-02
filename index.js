@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'develpoment';
+process.env.NODE_ENV = 'develpoment';               //////////////////change when PROD 
 
 const express = require('express');
 const app = module.exports.app = express();
@@ -6,11 +6,13 @@ const app = module.exports.app = express();
 const authRouter = require('./routers/auth')
 const imgRouter = require('./routers/img')
 const profileRouter = require('./routers/profile')
+const friendsRouter = require('./routers/friends')
 
 const mw = require('./middleware.js')
 
 
-/////////////////////  MIDDLEWARE 
+///////////////////////////////////////////////// MIDDLEWARE
+//////////////////////////////////////////////////////////// 
 
 app.use(mw.cs)
 app.use(mw.csurf)
@@ -20,13 +22,15 @@ app.use(mw.compress)
 app.use(mw.bParserJ)
  
 
-///////////////////// ROUTES
+///////////////////////////////////////////////////// ROUTES
+////////////////////////////////////////////////////////////
 
 app.use(express.static(__dirname + '/public'))
 
 app.use(authRouter)
 app.use(imgRouter)
 app.use(profileRouter)
+app.use(friendsRouter)
 
 app.get('/welcome', mw.isLoggedIn, (req, res) => {
     res.sendFile(__dirname + '/index.html')

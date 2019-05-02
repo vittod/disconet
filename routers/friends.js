@@ -1,0 +1,107 @@
+const express = require('express')
+const friendsRouter = express.Router()
+
+const db = require('../utility/db')
+const {guard} = require('../middleware')   /////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+friendsRouter.get('/api/getFriendship/:id', (req, res) => {
+    console.log('got friendcheck..', req.params.id)
+    db.getFriendship(req.session.isLoggedIn, req.params.id)
+        .then(({rows}) => {
+            res.json({
+                success: true,
+                data: rows,
+                user: req.session.isLoggedIn
+            })
+            console.log('rows')
+        })
+        .catch(err => {
+            res.json({
+                success: false
+            })
+            console.log('err get friens..', err)
+        })
+
+})
+
+friendsRouter.post('/api/makeFriendReq', (req, res) => {
+    console.log('make friendreq..', req.body.id)
+    db.getFriendship(req.session.isLoggedIn, req.body.id)
+        .then(({rows}) => {
+            console.log('got friend from db..', rows)
+            if (rows[0]) {
+                res.json({
+                    success: false,
+                    msg: 'request is already pending'
+                })
+            } else {
+                db.makeFriendReq(req.session.isLoggedIn, req.body.id)
+                    .then(({rows}) => {
+                        console.log(rows)
+                        res.json({
+                            success: true,
+                            data: rows
+                        })
+                    })
+                    .catch(err => {
+                        res.json({
+                            success: false
+                        })
+                        console.log('err set friend request..', err)
+                    })
+            }
+        })
+        .catch(err => {
+            res.json({
+                success: false,
+                msg: err.message
+            })
+            console.log('err get friens..', err)
+        })
+})
+
+friendsRouter.post('/api/answerFriendReq', (req, res) => {
+    console.log('answer friendreq..', req.body.id)
+    db.getFriendship(req.session.isLoggedIn, req.body.id)
+        .then(({rows}) => {
+            console.log('got friend from db..', rows[0])
+            if (rows[0].status === 'pending') {
+                db.answerFriendReq(req.session.isLoggedIn, req.body.id)
+                    .then(() => {
+                        console.log('friend succes')
+                        res.json({
+                            success: true
+                        })
+                    })
+                    .catch(err => {
+                        res.json({
+                            success: false,
+                            msg: 'something went wrong'
+                        })
+                        console.log('err set friend request..', err)
+                    })                
+            } else {
+                res.json({
+                    success: false,
+                    msg: 'answer not working'
+                })
+            }
+        })
+        .catch(err => {
+            res.json({
+                success: false,
+                msg: err.message
+            })
+            console.log('err get friens..', err)
+        })
+})
+
+friendsRouter.post('api/cancelFriendship', (req, res) => {
+
+})
+
+
+
+
+module.exports = friendsRouter

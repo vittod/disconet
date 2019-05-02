@@ -54,7 +54,7 @@ export default class ImgUpload extends React.Component {
             upData.append('iUser', localStorage.getItem('user'));      //////// CHANGE THIS TO SOMETHING SECURE!!!!!!!!!!
             upData.append('iFile', el);
             console.log(upData)
-            return axios.post('/postImg', upData)                
+            return axios.post('/api/postImg', upData)                
         }))
             .then((resp) => {
                 console.log('post img success..', resp[0].data);

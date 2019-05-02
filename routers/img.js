@@ -34,7 +34,7 @@ const uploader = multer({
 //////////////////////////////////////////////////    ROUTES
 ////////////////////////////////////////////////////////////
 
-imgRouter.get('/getAvatar', guard, (req, res) => {
+imgRouter.get('/api/getAvatar', guard, (req, res) => {
     console.log('get avatar..')
     db.getAvatar(req.session.isLoggedIn) 
         .then(({rows}) => {
@@ -47,7 +47,7 @@ imgRouter.get('/getAvatar', guard, (req, res) => {
         })
 })
 
-imgRouter.post('/setAvatar', guard, (req, res) => {
+imgRouter.post('/api/setAvatar', guard, (req, res) => {
     console.log('set avatar..', req.body.imgId)
     db.setAvatar(req.session.isLoggedIn, req.body.imgId)
         .then(() => {
@@ -60,7 +60,7 @@ imgRouter.post('/setAvatar', guard, (req, res) => {
         })
 })
 
-imgRouter.get('/getImgByUserAll', guard, (req, res) => {
+imgRouter.get('/api/getImgByUserAll', guard, (req, res) => {
     console.log('para', req.params.id);
     db.getImgByUserAll(req.session.isLoggedIn)
         .then(({rows}) => {
@@ -73,7 +73,7 @@ imgRouter.get('/getImgByUserAll', guard, (req, res) => {
         })
 })
 
-imgRouter.post('/postImg', guard, uploader.single('iFile'), s3.upload, (req, res) => { 
+imgRouter.post('/api/postImg', guard, uploader.single('iFile'), s3.upload, (req, res) => { 
     console.log('index', res.locals.newImg)
     if (req.file) {
         db.postNewImg(res.locals.newImg.url, res.locals.newImg.userId) 
@@ -95,7 +95,7 @@ imgRouter.post('/postImg', guard, uploader.single('iFile'), s3.upload, (req, res
     }
 })
 
-imgRouter.post('/deleteImg', guard, s3.deleteImg, (req, res) => {
+imgRouter.post('/api/deleteImg', guard, s3.deleteImg, (req, res) => {
     if (req.body.delId) {
         console.log('deleting..', req.body.delId);
         db.deleteRow(req.body.delId)

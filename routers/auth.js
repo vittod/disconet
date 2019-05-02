@@ -6,7 +6,7 @@ const {isLoggedIn, validateUserInput} = require('../middleware')
 
 ////////////////////    ROUTES
 
-authRouter.post('/register',isLoggedIn, validateUserInput, (req, res) => {
+authRouter.post('/api/register',isLoggedIn, validateUserInput, (req, res) => {
     db.getUserByEmail(req.body.email)
         .then(({rows}) => {
             if (!rows.length) {
@@ -42,7 +42,7 @@ authRouter.post('/register',isLoggedIn, validateUserInput, (req, res) => {
     console.log(req.body)
 })
 
-authRouter.post('/login', isLoggedIn, validateUserInput, (req, res) => {
+authRouter.post('/api/login', isLoggedIn, validateUserInput, (req, res) => {
     console.log('trying to login', req.body.email);
     db.getUserByEmail(req.body.email)
         .then(({rows}) => {

@@ -37,7 +37,7 @@ export default class ProfileModal extends React.Component {
 
     async updateProfileData() {        
         try {
-            await axios.post('/setProfile', {
+            await axios.post('/api/setProfile', {
                 bio: this.state.bio,
                 age: this.state.age,
                 city: this.state.city

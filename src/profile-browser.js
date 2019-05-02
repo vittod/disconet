@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import ProfilePic from './profile-pic';
 import axios from './service/axios'
+import ProfilePic from './profile-pic';
+import FriendButton from './friend-button'
 
 export default class ProfileBrowser extends React.Component {
     constructor(props) {
@@ -20,8 +21,6 @@ export default class ProfileBrowser extends React.Component {
         axios.get(`/api/getProfile/${this.props.match.params.id}`)
             .then(({data}) => {
                 this.setState({profile: data[0]})
-                // console.log('get user data', data)
-                // console.log(this.state.profile.url)
             })
             .catch(err => console.log('err user data', err))
 
@@ -57,6 +56,8 @@ export default class ProfileBrowser extends React.Component {
                 
                 {/* SET THIS TO SMTH SECURE!!!! */}
                 {localStorage.getItem('user') === this.props.match.params.id && <Link to='/'>would you like to edit your site?</Link>}    
+
+                <FriendButton idFriend={this.props.match.params.id} />
             </div>
         )
     }

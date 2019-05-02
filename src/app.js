@@ -40,7 +40,7 @@ export default class App extends React.Component {
     }
 
     getAvatarFromDb() {
-        axios.get('/getAvatar')
+        axios.get('/api/getAvatar')
             .then(({data}) => this.setAvatar(data[0].url))
             .catch(err => console.log(err))
     }
@@ -51,7 +51,7 @@ export default class App extends React.Component {
 
     setAvatarInDb(imgObj) {
         this.setAvatar(imgObj.url)
-        axios.post('/setAvatar', {imgId: imgObj.id})
+        axios.post('/api/setAvatar', {imgId: imgObj.id})
             .then(resp => console.log(resp))
             .catch(err => console.log('err set ava..', err))
     }
@@ -64,7 +64,7 @@ export default class App extends React.Component {
                         <HeaderBar loggedIn="true" userSettings={this.showHide} avatar={this.state.avatar} /> 
                         {this.state.showSettingsModal && <UserSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
                         <Route exact path="/" render={() => (<Profile userSettings={this.showHide} avatar={this.state.avatar} />)} />
-                        <Route path="/user/:id" component={ProfileBrowser} />
+                        <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} />)} />
                     </div>
                 </BrowserRouter>
 

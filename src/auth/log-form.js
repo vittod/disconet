@@ -17,7 +17,7 @@ export default class LogForm extends React.Component {
     }
 
     loginUser() {
-        axios.post('/login', {
+        axios.post('/api/login', {
             email: this.state.email,
             password: this.state.password
         }, {

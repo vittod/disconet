@@ -118,6 +118,50 @@ exports.setProfile = (userId, bio, age, city) => {
     return db.query(q, params)
 }
 
+//////////////////////////////////////////////////// FRIENDS
+////////////////////////////////////////////////////////////
+
+exports.getFriendship = (idFrom, idTo) => {
+    let q = `
+        SELECT *
+        FROM friends
+        WHERE (id_from = $1 AND id_to = $2)
+        OR (id_to = $1 AND id_from = $2);
+    `;
+    params = [idFrom, idTo];
+    return db.query(q, params)
+}
+
+exports.makeFriendReq = (idFrom, idTo) => {
+    let q = `
+        INSERT INTO friends (id_from, id_to, status)
+        VALUES ($1, $2, 'pending');
+    `;
+    params = [idFrom, idTo];
+    return db.query(q, params)
+}
+
+exports.answerFriendReq = (idFrom, idTo) => {
+    let q = `
+        UPDATE friends 
+        SET status = 'friends'
+        WHERE (id_from = $1 AND id_to = $2)
+        OR (id_to = $1 AND id_from = $2);
+    `;
+    params = [idFrom, idTo];
+    return db.query(q, params)
+}
+
+exports.cancelFriendship = (idFrom, idTo) => {
+    let q = `
+        DELETE FROM friends 
+        WHERE (id_from = 1 AND id_to = 2)
+        OR (id_to = 1 AND id_from = 2);
+    `;
+    let params = [idFrom, idTo];
+    return db.query(q, params)
+}
+
 //////////////////////////////////////////// GENERAL QUERIES
 ////////////////////////////////////////////////////////////
 

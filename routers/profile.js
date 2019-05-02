@@ -6,7 +6,7 @@ const {guard} = require('../middleware')
 
 
 
-profileRouter.get('/getProfile', (req, res) => {
+profileRouter.get('/api/getProfile', (req, res) => {
     console.log('get profile..')
     db.getProfileById(req.session.isLoggedIn) 
         .then(({rows}) => {
@@ -19,7 +19,7 @@ profileRouter.get('/getProfile', (req, res) => {
         })
 })
 
-profileRouter.post('/setProfile', guard, (req, res) => {
+profileRouter.post('/api/setProfile', guard, (req, res) => {
     console.log('set profile..', req.session.isLoggedIn)
     db.setProfile(req.session.isLoggedIn, req.body.bio, req.body.age, req.body.city)
         .then(() => {

@@ -23,7 +23,7 @@ export default class Profile extends React.Component {
     async getProfile() {
         console.log('got called')
         try {
-            let {data} = await axios.get('/getProfile')
+            let {data} = await axios.get('/api/getProfile')
             this.setState({profile: data[0]})
             console.log('parent', this.state.profile);
         
