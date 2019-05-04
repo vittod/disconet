@@ -50,14 +50,18 @@ export default class ProfileBrowser extends React.Component {
     render() {
         return (
             <div className="profile-area">
-                <ProfilePic bigger="true" avatar={this.state.profile.url} />
-                <h3> {this.state.profile.first} {this.state.profile.last} </h3>
-                {this.state.profile.bio ? this.renderProfile(this.state.profile) : this.renderDefault()}
-                
-                {/* SET THIS TO SMTH SECURE!!!! */}
-                {localStorage.getItem('user') === this.props.match.params.id && <Link to='/'>would you like to edit your site?</Link>}    
-
-                <FriendButton idFriend={this.props.match.params.id} />
+                <div className="profile-content">
+                    <ProfilePic bigger="true" avatar={this.state.profile.url} />
+                    <div className="profile-render">
+                        <h3> {this.state.profile.first} {this.state.profile.last} </h3>
+                        {this.state.profile.bio ? this.renderProfile(this.state.profile) : this.renderDefault()}
+                    </div>
+                </div>
+                <div className="profile-footer">
+                    {/* SET THIS TO SMTH SECURE!!!! */}
+                    {localStorage.getItem('user') === this.props.match.params.id && <Link to='/'>would you like to edit your site?</Link>}    
+                    <FriendButton idFriend={this.props.match.params.id} />
+                </div>
             </div>
         )
     }

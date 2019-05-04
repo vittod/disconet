@@ -55,8 +55,8 @@ export default class ProfileModal extends React.Component {
                     <textarea value={this.state.bio} onChange={e => this.setState({bio: e.target.value})} />
                     <input value={this.state.city} onChange={e => this.setState({city: e.target.value})} />
                     <input value={this.state.age} onChange={e => this.setState({age: e.target.value})} />
-                    <button onClick={this.updateProfileData}>submit information</button>
-                    <button className="escape" onClick={this.handleKeyEvt}>exit</button>
+                    <button  className="button-invert" onClick={this.updateProfileData}>submit information</button>
+                    <button className="escape button-invert" onClick={this.props.closeModal}>exit</button>
                 </div>
             </div>
         )

@@ -135,7 +135,7 @@ export default class ImgUpload extends React.Component {
                     <i className="fas fa-sync-alt fa-spin"></i>
                 </div>}
 
-                <button onClick={this.uploadFile}>share</button>
+                <button className="button-invert" onClick={this.uploadFile}>share</button>
                 
             </div>
         )

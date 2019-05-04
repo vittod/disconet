@@ -1,21 +1,37 @@
 * {
-    font-family: monospace    
+    font-family: monospace;
+    color: #f0f2eb;   
+}
+
+@font-face {
+    font-family: "Veselka";
+    src: url("/fonts/Veselka 4F.ttf");
 }
 
 *:focus {
     outline: 0;
-    box-shadow: 3px 5px 4px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 5px 4px 0px rgba(240, 242, 235, 0.3);
 }
 
 body {
     box-sizing: border-box;
-    background-color: #000000;
-    background: url(../img/crawford-jolly-1478647-unsplash.jpg) no-repeat;
-    background-size: cover;    margin: 0;
+    background-color: #b5592a;
+    margin: 0;
+}
+body::after {
+    content: "";
+    background: url(../img/disco.gif) repeat;
+    opacity: 0.1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1; 
 }
 
 
-.main-container {
+.login-container {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -23,33 +39,85 @@ body {
     height: calc(100vh - 40px);
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    /* justify-content: space-between; */
+    flex-direction: column;
+    /* align-items: center; */
+    height: 100%;
+    width: 90%;
+    background: rgba(240, 144, 39, 0.6);
+}
 
 .header-bar {
-    width: 100%;
+    width: 100vw;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background: #f0f2eb;
+    
 }
 .header-bar > * {
     margin: 10px;
+    
+}
+
+.logo {
+    display: flex;
+    align-items: baseline;
+    cursor: pointer;
+}
+.logo-link {
+    margin-left: 5%;
+}
+.logo > img {
+    height: 56px;
+}
+.logo-text {
+    font-family: "Veselka";
+    font-size: 5em;
+    text-transform: uppercase;
+    color: #b5592a;
 }
 
 .nav-area {
     display: flex;
-    flex-direction: column-reverse;
+    justify-content: flex-end;
     align-items: center;
+    margin-right: 5%;
+}
+.nav-area > * > * {
+    color: #8cbeaa;
+}
+#burger-menue {
+    height: 55px;
+    padding: 10px;
+    margin-right: 10px;
 }
 
 .avatar {
-    background: grey;
+    background: #8cbeaa;
     border-radius: 5%;
-    padding: 5px;
+    border: 2px solid #b5592a;
+    overflow: hidden;
+    width: 56px;
+    height: 64px;
 }
 .avatar > img {
     width: 56px;
     height: 64px;
 }
 .avatar-bigger {
-   
+    width: 205px;
+    height: 235px;
+    border: 5px solid #b5592a;
 }
 .avatar-bigger > img {
     width: 205px;
@@ -148,11 +216,15 @@ body {
 .modal-outer > * {
     max-width: 80%;
     max-height: 80%;
-    background: grey;
+    background: #8cbeaa;
+    border-radius: 5%;
+    border: 5px solid #b5592a;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .net-form {
@@ -164,9 +236,54 @@ body {
 }
 
 .profile-area {
+    margin: 5%;
+    display: flex;
+    flex-direction: column;
+}
+.profile-content {
     display: flex;
 }
+.profile-content > * {
+    margin-right: 5%;
+} 
 
+button {
+    background: none;
+    border: 2px solid #8cbeaa;
+    border-radius: 5px;
+}
+button:hover {
+    background: #b5592a;
+    opacity: 0.8;
+}
+
+.button-invert {
+    border: 2px solid #f0f2eb;
+}
+
+
+/*//////////////////////////////////// media queries /////////////////////////////////  */
+
+@media (max-width: 580px) {
+    .logo > img {
+        height: 33px;
+    }
+    .logo-text {
+        font-size: 3em;
+    }
+    .avatar > img {
+        width: 36px;
+        height: 44px;
+    }
+    .avatar-bigger {
+        width: 145px;
+        height: 135px;
+    }
+    .avatar-bigger > img {
+        width: 115px;
+        height: 135px;
+    }
+}
 
 /*//////////////////////////////////// animations ////////////////////////////////////  */
 

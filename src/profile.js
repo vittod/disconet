@@ -36,11 +36,14 @@ export default class Profile extends React.Component {
     render() {
         return (
             <div className="profile-area">
-                <ProfilePic bigger="true" userSettings={this.props.userSettings} avatar={this.props.avatar} />
-                <ProfileEdit profile={this.state.profile} editProfile={() => this.setState} refreshProfile={this.getProfile} />
-                
-                {/* CHANGE TO SMTHN SECURE */}
-                <Link to={`/user/${localStorage.getItem('user')}`}>would you like to see your site as others do?</Link>
+                <div className="profile-content">
+                    <ProfilePic bigger="true" picSettings={this.props.picSettings} avatar={this.props.avatar} />
+                    <ProfileEdit profile={this.state.profile} editProfile={() => this.setState} refreshProfile={this.getProfile} />
+                </div> 
+                <div className="profile-footer">
+                    {/* CHANGE TO SMTHN SECURE */}
+                    <Link to={`/user/${localStorage.getItem('user')}`}>would you like to see your site as others do?</Link>
+                </div>
             </div>
         )
     }

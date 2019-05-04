@@ -3,18 +3,17 @@ import { BrowserRouter, Route} from 'react-router-dom';
 
 import axios from './service/axios';
 import HeaderBar from './header-bar';
-import UserSettings from './user-settings';
+import PicSettings from './pic-settings';
 import Profile from './profile';
 import ProfileBrowser from './profile-browser'
-
-
+import Friends from './friends'
 
 
 export default class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            showSettingsModal: false,
+            showPicModal: false,
             avatar: null
         }
 
@@ -26,7 +25,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         window.addEventListener('keydown', e => {
-            if (e.key === 'Escape') this.setState({ showSettingsModal: false })
+            if (e.key === 'Escape') this.setState({ showPicModal: false })
         })
 
         this.getAvatarFromDb()
@@ -36,7 +35,7 @@ export default class App extends React.Component {
     }
 
     showHide() {
-        this.state.showSettingsModal ? this.setState({ showSettingsModal: false }) : this.setState({ showSettingsModal: true })
+        this.state.showPicModal ? this.setState({ showPicModal: false }) : this.setState({ showPicModal: true })
     }
 
     getAvatarFromDb() {
@@ -58,17 +57,20 @@ export default class App extends React.Component {
 
     render() {
         return ( 
-            <div>
+            <>
                 <BrowserRouter>
-                    <div>
-                        <HeaderBar loggedIn="true" userSettings={this.showHide} avatar={this.state.avatar} /> 
-                        {this.state.showSettingsModal && <UserSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
-                        <Route exact path="/" render={() => (<Profile userSettings={this.showHide} avatar={this.state.avatar} />)} />
-                        <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} />)} />
-                    </div>
+                    <>
+                        <HeaderBar loggedIn="true" picSettings={this.showHide} avatar={this.state.avatar} /> 
+                        {this.state.showPicModal && <PicSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
+                        <div className="main-container">
+                                <Route exact path="/" render={() => (<Profile picSettings={this.showHide} avatar={this.state.avatar} />)} />
+                                <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} />)} />
+                                <Route path="/friends" render={() => <Friends />} />
+                        </div>
+                    </>
                 </BrowserRouter>
 
-            </div>
+            </>
         )
     }
 

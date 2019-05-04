@@ -121,6 +121,23 @@ exports.setProfile = (userId, bio, age, city) => {
 //////////////////////////////////////////////////// FRIENDS
 ////////////////////////////////////////////////////////////
 
+exports.getAllFriends = (id) => {
+    let q = `
+        SELECT id_to, id_from, status, id_user, first_name, last_name, url
+        FROM friends
+        LEFT JOIN users 
+        ON (id_user = id_to OR id_user = id_from) AND NOT id_user = $1
+        LEFT JOIN profiles
+        ON profiles.id_user_fk = id_user
+        LEFT JOIN images
+        ON avatar = id_img
+        WHERE (id_from = $1 OR id_to = $1)
+        AND status = 'friends';
+    `;
+    params = [id];
+    return db.query(q, params)
+}
+
 exports.getFriendship = (idFrom, idTo) => {
     let q = `
         SELECT *

@@ -2,7 +2,7 @@ import React from 'react';
 import ImgUpload from './img-upload'
 import ImgGallery from './img-gallery'
 
-export default class UserSettings extends React.Component {
+export default class PicSettings extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -27,7 +27,7 @@ export default class UserSettings extends React.Component {
                 <div className="user-settings">
                     <ImgGallery setAvatar={this.props.setAvatar} avatar={this.props.avatar} triggerSet={this.triggerSet} />
                     <ImgUpload triggerRefresh={this.triggerRefresh} />
-                    <button onClick={this.props.escapeModal}>exit</button>
+                    <button className="button-invert" onClick={this.props.escapeModal}>exit</button>
 
                 </div>
             </div>

@@ -8,7 +8,7 @@ import LogForm from './log-form';
 
 export default function Welcome() {
     return (
-        <div className="main-container">
+        <div className="login-container">
             <HeaderBar /> 
             <div className="start-content">
                 <HashRouter>
