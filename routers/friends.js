@@ -4,9 +4,9 @@ const friendsRouter = express.Router()
 const db = require('../utility/db')
 const {guard} = require('../middleware')   /////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-friendsRouter.get('/api/getAllFriends', guard, (req, res) => {
+friendsRouter.get('/api/getAllFriends/:status', guard, (req, res) => {
     console.log('gettin hereo..')
-    db.getAllFriends(req.session.isLoggedIn)
+    db.getAllFriends(req.session.isLoggedIn, req.params.status)
         .then(({rows}) => {
             rows.map(el => {
                 console.log('yooyoy', el.status)

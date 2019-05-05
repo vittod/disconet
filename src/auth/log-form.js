@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import axios from '../service/axios';
 
+
 export default class LogForm extends React.Component {
     constructor(props) {
         super(props)
@@ -25,9 +26,9 @@ export default class LogForm extends React.Component {
             xsrfHeaderName: 'csrf-token'
         })
             .then(resp => {
-                console.log(resp.data);
+                console.log('loggie', resp.data);
                 if (resp.data.isLoggedIn) {
-                    localStorage.setItem('user', resp.data.isLoggedIn)
+                    //localStorage.setItem('user', resp.data.isLoggedIn) ////////////////////// take out!!!!!!!!!!!!!!!
                     location.replace('/')
                 } else {
                     console.log(resp.data.msg)
@@ -60,9 +61,10 @@ export default class LogForm extends React.Component {
                 </label>
                 <button onClick={this.loginUser}>login</button>
                 <p>
-                    <Link to='/register'>or would you like to register</Link>
+                    <Link to='/'>or would you like to register</Link>
                 </p>
             </div>
         )
     }
 }
+

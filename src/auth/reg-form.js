@@ -32,7 +32,7 @@ export default class RegForm extends React.Component {
             .then(resp => {
                 console.log(resp.data);
                 if (resp.data.isLoggedIn) {
-                    localStorage.setItem('user', resp.data.isLoggedIn)
+                   ///////////////////////////// localStorage.setItem('user', resp.data.isLoggedIn)
                     location.replace('/')
                 } else {
                     console.log(resp.data.msg)

@@ -51,9 +51,10 @@ authRouter.post('/api/login', isLoggedIn, validateUserInput, (req, res) => {
                     .then(passValid => {
                         console.log('user pass valid..', passValid)
                         if (passValid) {
+                            console.log('login', rows[0])
                             req.session.isLoggedIn = rows[0].id_user;
                             res.json({
-                                isLoggedIn: rows[0].id_user,                    
+                                isLoggedIn: rows[0],                    
                             })
                         } else {
                             console.log('password wrong')

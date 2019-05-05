@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter, Route} from 'react-router-dom';
 
 import axios from './service/axios';
@@ -7,9 +8,12 @@ import PicSettings from './pic-settings';
 import Profile from './profile';
 import ProfileBrowser from './profile-browser'
 import Friends from './friends'
+import MainMenue from './main-menue'
+import { setUser } from './service/actions'
 
 
-export default class App extends React.Component {
+
+class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -21,9 +25,11 @@ export default class App extends React.Component {
         this.getAvatarFromDb = this.getAvatarFromDb.bind(this)
         this.setAvatar = this.setAvatar.bind(this)
         this.setAvatarInDb = this.setAvatarInDb.bind(this)
+        this.getProfile = this.getProfile.bind(this)
     }
 
     componentDidMount() {
+        this.getProfile()
         window.addEventListener('keydown', e => {
             if (e.key === 'Escape') this.setState({ showPicModal: false })
         })
@@ -33,8 +39,20 @@ export default class App extends React.Component {
     componentWillUnmount() {
         ///////////////////////////////////////////////////// unhook evtLstnr ??
     }
-
-    showHide() {
+    
+    async getProfile() {
+        try {
+            let {data} = await axios.get('/api/getProfile')
+            this.props.dispatch(setUser(data[0]))
+            console.log('parent', this.state.profile);
+            
+        } catch (err) {
+            console.log(err);
+        }
+        
+    }
+    
+    showHide(menue) {
         this.state.showPicModal ? this.setState({ showPicModal: false }) : this.setState({ showPicModal: true })
     }
 
@@ -62,11 +80,13 @@ export default class App extends React.Component {
                     <>
                         <HeaderBar loggedIn="true" picSettings={this.showHide} avatar={this.state.avatar} /> 
                         {this.state.showPicModal && <PicSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
+                        {this.props.showMainMenue && <MainMenue />}
                         <div className="main-container">
-                                <Route exact path="/" render={() => (<Profile picSettings={this.showHide} avatar={this.state.avatar} />)} />
-                                <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} />)} />
+                                <Route exact path="/" render={() => (<Profile getProfile={this.getProfile} picSettings={this.showHide} avatar={this.state.avatar} />)} />
+                                <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} user={this.props.user}/>)} />
                                 <Route path="/friends" render={() => <Friends />} />
                         </div>
+                        
                     </>
                 </BrowserRouter>
 
@@ -75,3 +95,12 @@ export default class App extends React.Component {
     }
 
 }
+
+const mapStateToProps = function(state) {
+    return {
+        showMainMenue: state.showMainMenue,
+        user: state.user
+    };
+};
+
+export default connect(mapStateToProps)(App);

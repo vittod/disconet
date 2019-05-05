@@ -1,9 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
+
 import ProfilePic from './profile-pic';
+import { toggleMainMenue } from './service/actions'
 
 
-export default function HeaderBar({picSettings, loggedIn, avatar}) {
+
+function showHide(showMainMenue) {
+    return showMainMenue ? false : true
+}
+
+function HeaderBar({picSettings, loggedIn, avatar, showMainMenue, dispatch}) {
     return (
         <div className="header-bar">
 
@@ -25,16 +33,24 @@ export default function HeaderBar({picSettings, loggedIn, avatar}) {
 
             {loggedIn && 
                 <div className="nav-area">
-                    <img id="burger-menue" src="/img/burger-menue.png" />
+                    <img id="burger-menue" src="/img/burger-menue.png" onClick={() => dispatch(toggleMainMenue(showHide(showMainMenue)))} />
                     <div>
                         {/* ////
                         //   WARNING: CHANGE TO REDUX OR SMTH SAVE..
                         //// */}
                         <ProfilePic picSettings={picSettings} avatar={avatar} />
-                        <a href="/logout" onClick={() => localStorage.clear()}>logout</a>
+                        <a href="/logout">logout</a>
                     </div>
                 </div>
             }
         </div>
     )
 }
+
+const mapStateToProps = function(state) {
+    return {
+        showMainMenue: state.showMainMenue 
+    };
+};
+
+export default connect(mapStateToProps)(HeaderBar);

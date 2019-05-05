@@ -6,10 +6,10 @@ import RegForm from './reg-form';
 import LogForm from './log-form';
 
 
-export default function Welcome() {
+export default function Welcome(props) {
     return (
         <div className="login-container">
-            <HeaderBar /> 
+            <HeaderBar store={props.store} /> 
             <div className="start-content">
                 <HashRouter>
                     <div>

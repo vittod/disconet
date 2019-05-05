@@ -14,7 +14,7 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(reduxProm
 let content 
 
 if (location.pathname === '/welcome') {
-    content = <Welcome />
+    content = <Welcome store={store} />
 } else {
     content = (
         <Provider store={store}>

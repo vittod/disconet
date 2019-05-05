@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import axios from './service/axios';
 
-export default class ImgUpload extends React.Component {
+
+class ImgUpload extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -51,7 +54,8 @@ export default class ImgUpload extends React.Component {
         this.setState({showLoader: true})
         Promise.all(this.state.files.map(el => {                  
             let upData = new FormData();
-            upData.append('iUser', localStorage.getItem('user'));      //////// CHANGE THIS TO SOMETHING SECURE!!!!!!!!!!
+            console.log('up user id', this.props.user);
+            upData.append('iUser', this.props.user.id_user);  
             upData.append('iFile', el);
             console.log(upData)
             return axios.post('/api/postImg', upData)                
@@ -141,3 +145,11 @@ export default class ImgUpload extends React.Component {
         )
     }
 }
+
+const mapStateToProps = function(state) {
+    return {
+        user: state.user
+    };
+};
+
+export default connect(mapStateToProps)(ImgUpload);

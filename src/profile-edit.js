@@ -45,13 +45,16 @@ export default class ProfileEdit extends React.Component {
 
     render() {
         return (
-            <div className="profile-render">
-                <h3>Hello {this.props.profile.first} {this.props.profile.last} </h3>
-                {this.props.profile.bio ? this.renderProfile(this.props.profile) : this.renderDefault()}
-                {this.state.showEditor && 
-                    <ProfileModal profile={this.props.profile} refreshProfile={this.props.refreshProfile} closeModal={() => this.setState({showEditor: false})} />
-                }
-            </div>
+            <>
+                {this.props.profile &&
+                <div className="profile-render">
+                    <h3>Hello {this.props.profile.first} {this.props.profile.last} </h3>
+                    {this.props.profile.bio ? this.renderProfile(this.props.profile) : this.renderDefault()}
+                    {this.state.showEditor && 
+                        <ProfileModal profile={this.props.profile} refreshProfile={this.props.refreshProfile} closeModal={() => this.setState({showEditor: false})} />
+                    }
+                </div>}
+            </>
         )
     }
 }

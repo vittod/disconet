@@ -83,7 +83,7 @@ exports.postNewImg = (url, userId) => {
 
 exports.getProfileById = (id) => {
     let q = `
-        SELECT id_prof, city, age, avatar, bio, first_name AS first, last_name AS last, email
+        SELECT id_prof, id_user, city, age, avatar, bio, first_name AS first, last_name AS last, email
         FROM profiles                                                                                                                                                                                                             
         RIGHT JOIN users                                                                                                                                                                                                           
         ON id_user = id_user_fk 
@@ -95,7 +95,7 @@ exports.getProfileById = (id) => {
 
 exports.getOtherProfile = (id) => {
     let q = `
-        SELECT  city, age, bio, first_name AS first, last_name AS last, url
+        SELECT  id_user, city, age, bio, first_name AS first, last_name AS last, url
         FROM users
         LEFT JOIN profiles 
         ON id_user = profiles.id_user_fk
@@ -121,7 +121,7 @@ exports.setProfile = (userId, bio, age, city) => {
 //////////////////////////////////////////////////// FRIENDS
 ////////////////////////////////////////////////////////////
 
-exports.getAllFriends = (id) => {
+exports.getAllFriends = (id, status) => {
     let q = `
         SELECT id_to, id_from, status, id_user, first_name, last_name, url
         FROM friends
@@ -132,11 +132,12 @@ exports.getAllFriends = (id) => {
         LEFT JOIN images
         ON avatar = id_img
         WHERE (id_from = $1 OR id_to = $1)
-        AND status = 'friends';
+        AND status = $2;
     `;
-    params = [id];
+    params = [id, status];
     return db.query(q, params)
 }
+
 
 exports.getFriendship = (idFrom, idTo) => {
     let q = `
