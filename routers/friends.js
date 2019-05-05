@@ -119,7 +119,22 @@ friendsRouter.post('/api/answerFriendReq', guard, (req, res) => {
         })
 })
 
-friendsRouter.post('api/cancelFriendship', (req, res) => {
+friendsRouter.post('/api/cancelFriendship',guard, (req, res) => {
+    console.log('cancel friendreq..', req.body.id)
+    db.cancelFriendship(req.session.isLoggedIn, req.body.id)
+        .then(() => {
+            console.log('terminated frindship..')
+                res.json({
+                    success: true
+                })
+        })
+        .catch(err => {
+            res.json({
+                success: false,
+                msg: err.message
+            })
+            console.log('err cancel friens..', err)
+        })
 
 })
 

@@ -9,7 +9,7 @@ import Profile from './profile';
 import ProfileBrowser from './profile-browser'
 import Friends from './friends'
 import MainMenue from './main-menue'
-import { setUser } from './service/actions'
+import { setUser, toggleMainMenue } from './service/actions'
 
 
 
@@ -31,7 +31,10 @@ class App extends React.Component {
     componentDidMount() {
         this.getProfile()
         window.addEventListener('keydown', e => {
-            if (e.key === 'Escape') this.setState({ showPicModal: false })
+            if (e.key === 'Escape') {
+                this.setState({showPicModal: false})
+                this.props.dispatch(toggleMainMenue(false))
+            }
         })
 
         this.getAvatarFromDb()

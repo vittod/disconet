@@ -16,7 +16,7 @@ function HeaderBar({picSettings, loggedIn, avatar, showMainMenue, dispatch}) {
         <div className="header-bar">
 
             {loggedIn && 
-            <Link className="logo-link" to="/">}
+            <Link className="logo-link" to="/">
                 <div className="logo">
                     <span className="logo-text">Disc</span>
                         <img src="/img/disco_logo.png" />
@@ -35,9 +35,6 @@ function HeaderBar({picSettings, loggedIn, avatar, showMainMenue, dispatch}) {
                 <div className="nav-area">
                     <img id="burger-menue" src="/img/burger-menue.png" onClick={() => dispatch(toggleMainMenue(showHide(showMainMenue)))} />
                     <div>
-                        {/* ////
-                        //   WARNING: CHANGE TO REDUX OR SMTH SAVE..
-                        //// */}
                         <ProfilePic picSettings={picSettings} avatar={avatar} />
                         <a href="/logout">logout</a>
                     </div>

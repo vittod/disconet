@@ -173,8 +173,8 @@ exports.answerFriendReq = (idFrom, idTo) => {
 exports.cancelFriendship = (idFrom, idTo) => {
     let q = `
         DELETE FROM friends 
-        WHERE (id_from = 1 AND id_to = 2)
-        OR (id_to = 1 AND id_from = 2);
+        WHERE (id_from = $1 AND id_to = $2)
+        OR (id_to = $1 AND id_from = $2);
     `;
     let params = [idFrom, idTo];
     return db.query(q, params)

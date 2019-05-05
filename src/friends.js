@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 import ProfilePic from './profile-pic'
+import axios from './service/axios'
 import { getAllFriends, getAllFrientees } from './service/actions'
 
 
@@ -11,6 +12,8 @@ class Friends extends React.Component {
         super(props)
 
         this.refresh = this.refresh.bind(this)
+        this.answerFriendReq = this.answerFriendReq.bind(this)
+        this.cancelFriendship = this.cancelFriendship.bind(this)
     }
 
     componentDidMount() {
@@ -20,6 +23,34 @@ class Friends extends React.Component {
     refresh() {
         this.props.dispatch(getAllFriends());
         this.props.dispatch(getAllFrientees());
+    }
+
+    async answerFriendReq(idFriend) {
+        let aReq = await axios.post('/api/answerFriendReq', {id: idFriend})
+        try {
+            console.log(aReq.data)
+            if (aReq.data.success === true) {
+                this.refresh()
+            } else if (fReq.data.success === false) {
+                console.log('something went wrong', aReq.msg)
+            }
+        } catch (err) {
+            console.log('something went wrong with request..', err)
+        }
+    }
+
+    async cancelFriendship(idFriend) {
+        let cReq = await axios.post('/api/cancelFriendship', {id: idFriend})
+        try {
+            console.log(cReq.data)
+            if (cReq.data.success === true) {
+                this.refresh()
+            } else if (cReq.data.success === false) {
+                console.log('something went wrong', cReq.msg)
+            }
+        } catch (err) {
+            console.log('something went wrong with request..', err)
+        }
     }
 
     render() {
@@ -44,7 +75,7 @@ class Friends extends React.Component {
                                         </h4>
                                     </div>
                                     <div className="card-footer">
-                                        <button className="button-full">terminate friendship</button>
+                                        <button className="button-full" onClick={() => this.cancelFriendship(el.id_user)}>terminate friendship</button>
                                     </div>
                                 </div>
                             )
@@ -73,7 +104,7 @@ class Friends extends React.Component {
                                             </h4>
                                         </div>
                                         <div className="card-footer">
-                                            <button className="button-full">accept <br /> friendship</button>
+                                            <button className="button-full" onClick={() => this.answerFriendReq(el.id_user)}>accept <br /> friendship</button>
                                         </div>
                                     </div>
                                 )

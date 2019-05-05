@@ -26,7 +26,6 @@ export default class ProfileModal extends React.Component {
     }
 
     handleKeyEvt(e) {
-        console.log('sfdcsdcs')
         if (e.key === 'Escape' || e.target.className === 'escape') {
             this.props.closeModal()
         } else if (e.key === 'Enter') {

@@ -30,3 +30,4 @@ export function setUser(user) {
         type: 'SET_USER'
     }
 }
+
