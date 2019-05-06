@@ -1,7 +1,11 @@
 import React from 'react'
-import axios from './service/axios';
+import { connect } from 'react-redux';
 
-export default class ImgGallery extends React.Component {
+import axios from './service/axios';
+import ImgDisplay from './img-display'
+
+
+class ImgGallery extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,7 +24,7 @@ export default class ImgGallery extends React.Component {
     getAllImg() {
         axios.get('/api/getImgByUserAll')   
             .then(({data}) => {
-                console.log('resp..', data)
+                // console.log('resp..', data)
                 this.setState({images: data})    
             
             })
@@ -32,30 +36,24 @@ export default class ImgGallery extends React.Component {
         return (
             <div className="img-gallery">
                 {this.state.images.map((el, i) => {
-                    return <ImgDisplay url={el.url} key={i} imgNo={i} imgId={el.id_img} setAvatar={this.props.setAvatar} />
+                    return <ImgDisplay 
+                                url={el.url} 
+                                key={i} 
+                                imgNo={i} 
+                                imgId={el.id_img} 
+                                setAvatar={this.props.setAvatar} 
+                                triggerRefresh={this.getAllImg} 
+                            />
                 })}
             </div>
         )
     }
 }
 
-/////////////////////////////////////////////////////// SOURCE THIS OUT IF NEEDED ELSEWHERE....
-class ImgDisplay extends ImgGallery {
-    constructor(props) {
-        super(props)
-        this.state = {}
-    }
+const mapStateToProps = function(state) {
+    return {
+        
+    };
+};
 
-    render() {  
-        return (
-            <div className="img-wrapper">
-                <img src={this.props.url} />
-                {this.props.imgNo +1}
-                <button onClick={() => this.props.setAvatar({
-                    url: this.props.url,
-                    id: this.props.imgId
-                })}>set as Avatar</button>
-            </div>
-        )
-    }
-}
+export default connect(mapStateToProps)(ImgGallery);

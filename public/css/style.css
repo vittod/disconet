@@ -135,22 +135,27 @@ main {
 
 .img-upload {
     width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .img-gallery {
     width: 95%;
-    background: lightgrey;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .img-wrapper {
     width: 100px;
     height: 150px;
+    border: 1px solid #f0f2eb;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+    margin: 1px;
 }
 .img-wrapper > img {
     height: 100px;
@@ -161,7 +166,7 @@ main {
     outline: 1px dashed black;
     outline-offset: -5px;
     min-height: 5rem;
-    /* width: 95%; */
+    width: 95%;
     padding-right: 20px;
     border-radius: 5px;
     display: flex;
@@ -215,21 +220,23 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(0, 0, 0, 0.3);
     z-index: 500;
 }
 
 .modal-outer > * {
-    max-width: 80%;
+    max-width: 50%;
     max-height: 80%;
     background: #8cbeaa;
     border-radius: 5%;
     border: 5px solid #b5592a;
-    overflow: hidden;
+    overflow: scroll;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    padding-top: 10px;
 }
 .main-menue {
     position: fixed;
@@ -247,10 +254,6 @@ main {
 .main-menue > * {
     color: #b5592a;
     margin: 5px;
-}
-.exitor {
-    /* align-self: flex-end; */
-    cursor: pointer;
 }
 
 .net-form {
@@ -303,6 +306,23 @@ main {
 }
 
 
+.photo-booth {
+    padding-top: 0px;
+}
+
+.capture-view, .snap-view {
+    border-radius: 5%;
+    border: 2px solid #b5592a;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.capture-view {
+    margin-bottom: 10px;
+}
+
+
 
 /*////////////////////////////////////  control surface ////////////////////////////////  */
 button {
@@ -323,6 +343,9 @@ button:hover {
 .button-full {
     width: 100%;
 }
+.button-inline {
+    display: flex;
+}
 
 input, textarea {
     background: rgba(240, 144, 39, 0.3);
@@ -330,9 +353,36 @@ input, textarea {
     border-radius: 3px;
     font-size: 14px;
     margin: 2px;
+    width: 250px;
 }
 .modal-outer input, .modal-outer textarea {
     background: rgba(181, 89, 42, 0.3);
+}
+
+.exitor {
+    /* align-self: flex-end; */
+    cursor: pointer;
+}
+
+.exit-right {
+    align-self: flex-end;
+    padding: 5px;
+}
+.exit-right:hover {
+    color: #b5592a;
+}
+
+/*//////////////////////////////////// colors ////////////////////////////////////////  */
+
+.orange {
+    color: #b5592a;
+}
+
+.fray {
+    color: #8cbeaa;
+}
+.beige {
+    color: #f0f2eb
 }
 
 /*//////////////////////////////////// media queries /////////////////////////////////  */

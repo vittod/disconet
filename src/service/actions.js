@@ -24,10 +24,24 @@ export function toggleMainMenue(toggle) {
     }
 }
 
+export function togglePhotoBooth(toggle) {
+    return {
+        showPhotoBooth: toggle,
+        type: 'TOGGLE_PHOTO_BOOTH'   
+    }
+}
+
 export function setUser(user) {
     return {
         user: user,
         type: 'SET_USER'
+    }
+}
+
+export function setBoothPhoto(photo) {
+    return {
+        boothPhoto: photo,
+        type: 'SET_BOOTH_PHOTO'
     }
 }
 

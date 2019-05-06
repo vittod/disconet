@@ -9,6 +9,7 @@ import Profile from './profile';
 import ProfileBrowser from './profile-browser'
 import Friends from './friends'
 import MainMenue from './main-menue'
+import PhotoBooth from './photo-booth'
 import { setUser, toggleMainMenue } from './service/actions'
 
 
@@ -84,6 +85,8 @@ class App extends React.Component {
                         <HeaderBar loggedIn="true" picSettings={this.showHide} avatar={this.state.avatar} /> 
                         {this.state.showPicModal && <PicSettings setAvatar={this.setAvatarInDb} avatar={this.state.avatar} escapeModal={this.showHide} />}
                         {this.props.showMainMenue && <MainMenue />}
+                        {this.props.showPhotoBooth && <PhotoBooth />}
+
                         <div className="main-container">
                                 <Route exact path="/" render={() => (<Profile getProfile={this.getProfile} picSettings={this.showHide} avatar={this.state.avatar} />)} />
                                 <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} user={this.props.user}/>)} />
@@ -102,7 +105,8 @@ class App extends React.Component {
 const mapStateToProps = function(state) {
     return {
         showMainMenue: state.showMainMenue,
-        user: state.user
+        user: state.user,
+        showPhotoBooth: state.showPhotoBooth
     };
 };
 

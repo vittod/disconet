@@ -45,7 +45,7 @@ exports.upload = function(req, res, next) {
 }
 
 exports.deleteImg = (req, res, next) => {
-    try {
+    try { 
         let delBase = path.parse(req.body.delUrl).base;
         console.log('deleting from bucket..', delBase);
         client.deleteFile(`/${delBase}`, (err, res) => {

@@ -35,8 +35,7 @@ function HeaderBar({picSettings, loggedIn, avatar, showMainMenue, dispatch}) {
                 <div className="nav-area">
                     <img id="burger-menue" src="/img/burger-menue.png" onClick={() => dispatch(toggleMainMenue(showHide(showMainMenue)))} />
                     <div>
-                        <ProfilePic picSettings={picSettings} avatar={avatar} />
-                        <a href="/logout">logout</a>
+                        <ProfilePic picSettings={picSettings} avatar={avatar} />                        
                     </div>
                 </div>
             }

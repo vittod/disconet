@@ -25,9 +25,9 @@ export default class PicSettings extends React.Component {
         return (
             <div className="modal-outer">
                 <div className="user-settings">
+                    <i onClick={this.props.escapeModal} className="fas fa-times fa-2x exit-right exitor" />
                     <ImgGallery setAvatar={this.props.setAvatar} avatar={this.props.avatar} triggerSet={this.triggerSet} />
                     <ImgUpload triggerRefresh={this.triggerRefresh} />
-                    <button className="button-invert" onClick={this.props.escapeModal}>exit</button>
 
                 </div>
             </div>

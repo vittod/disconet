@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import axios from './service/axios';
+import { togglePhotoBooth, setBoothPhoto } from './service/actions'
 
 
 class ImgUpload extends React.Component {
@@ -16,8 +17,10 @@ class ImgUpload extends React.Component {
 
         let inputField;
         let dropzone;
+        let boothImg
                 
         this.uploadFile = this.uploadFile.bind(this)
+        this.setUpload = this.setUpload.bind(this)
         this.handleFileSelect = this.handleFileSelect.bind(this)
         this.doClickOnInput = this.doClickOnInput.bind(this)
         this.handleDrop = this.handleDrop.bind(this)
@@ -52,21 +55,21 @@ class ImgUpload extends React.Component {
 
     uploadFile() {
         this.setState({showLoader: true})
-        Promise.all(this.state.files.map(el => {                  
+        Promise.all(this.state.files.map(el => {    
             let upData = new FormData();
-            console.log('up user id', this.props.user);
             upData.append('iUser', this.props.user.id_user);  
             upData.append('iFile', el);
-            console.log(upData)
+            console.log('upload..', upData)
             return axios.post('/api/postImg', upData)                
         }))
             .then((resp) => {
-                console.log('post img success..', resp[0].data);
-                if (resp[0].status === 200) {
+                console.log('post img success..', resp);
+                if (resp.status === 200 || resp[0].status === 200) {
                     this.setState({
                         showLoader: false,
                         files: []
                     })
+                    this.props.dispatch(setBoothPhoto({}))
                     this.props.triggerRefresh()
                 } else {
                     this.renderError('something went wrong!')
@@ -80,9 +83,7 @@ class ImgUpload extends React.Component {
 
     handleFileSelect(e) {
         let nuFiles = Array.prototype.slice.call(e.target.files)           
-        console.log('files before..', nuFiles)     
         this.setState({files: nuFiles})
-        console.log('is in my state files..', this.state.files)
     }
 
     doClickOnInput(e) {
@@ -93,7 +94,6 @@ class ImgUpload extends React.Component {
         e.preventDefault();
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        console.log(e.target.files)
         return false
     }
 
@@ -104,42 +104,36 @@ class ImgUpload extends React.Component {
         })
     }
 
+    setUpload() {
+        if (this.props.boothPhoto) {
+            this.setState({files: [this.props.boothPhoto.blob]}, this.uploadFile)
+        } else {
+            this.uploadFile()
+        }
+    }
+
     render() {
         return (
             <div className="img-upload">
-                {!this.state.showLoader && <div id="box-upload" className={this.state.dragOverClass} ref={dropF => this.dropzone = dropF}
-                    // onDragEnter={(e) => {
-                    //     e.preventDefault();
-                    //     e.stopPropagation();
-                    //     this.setState({dragOverClass: 'box-upload-drag'})}
-                    // }
-                    // onDragLeave={(e) => {
-                    //     e.preventDefault();
-                    //     e.stopPropagation();
-                    //     this.setState({dragOverClass: ''})}
-                    // }
-                    // onDragEnd={(e) => {
-                    //     e.preventDefault();
-                    //     e.stopPropagation();
-                    // }}
-                    // onDrop={(e) => {
-                    //     e.preventDefault();
-                    //     e.stopPropagation();
-                    //     console.log(e)
-                    // }}
-                    >
+                {!this.state.showLoader && 
+                <div id="box-upload" className={this.state.dragOverClass} ref={dropF => this.dropzone = dropF}>
                         <input id="fileupload" onChange={this.handleFileSelect} ref={input => this.inputField = input} type="file" accept="image/*" multiple />
-                        <label onClick={this.doClickOnInput}><strong>Choose file</strong> or drag upon...</label>
+                        <label className="orange" onClick={this.doClickOnInput}><strong className="orange">Choose file</strong> or drag upon...</label>
                         <div className="files">
                             {this.state.files.map((el, i) => <h5 key={i}>{el.name}</h5>)}                     
                         </div>
                 </div>}
 
-                {this.state.showLoader && <div id="box-uploading">
+                {this.state.showLoader && 
+                <div id="box-uploading">
                     <i className="fas fa-sync-alt fa-spin"></i>
                 </div>}
 
-                <button className="button-invert" onClick={this.uploadFile}>share</button>
+                {this.props.boothPhoto &&
+                <img src={this.props.boothPhoto.photo} />}
+
+                <button className="button-invert button-full" onClick={this.setUpload}><i className="fas fa-upload  fa-2x" /></button>
+                <button onClick={() => this.props.dispatch(togglePhotoBooth(true))} className="button-invert button-full"><i className="fas fa-camera-retro fa-2x" /></button>
                 
             </div>
         )
@@ -148,7 +142,8 @@ class ImgUpload extends React.Component {
 
 const mapStateToProps = function(state) {
     return {
-        user: state.user
+        user: state.user,
+        boothPhoto: state.boothPhoto
     };
 };
 

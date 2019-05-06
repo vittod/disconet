@@ -190,7 +190,7 @@ exports.getByColumn = (table, col, val) => {
 }
 
 exports.deleteRow = (table, column, condition) => {
-    let params = [];
-    let q = `DELETE FROM ${table} WHERE ${column} = ${condition};`;
+    let params = [condition];
+    let q = `DELETE FROM ${table} WHERE ${column} = $1;`;
     return db.query(q, params)
 }

@@ -6,9 +6,14 @@ export default function reducer(state = {}, action) {
 
         case 'TOGGLE_MAIN_MENUE': return {...state, showMainMenue: action.showMainMenue }; break
 
+        case 'TOGGLE_PHOTO_BOOTH': return {...state, showPhotoBooth: action.showPhotoBooth }; break
+
         case 'SET_USER': return {...state, user: action.user }; break
+
+        case 'SET_BOOTH_PHOTO': return {...state, boothPhoto: action.boothPhoto }; break 
 
     }
         
     return state
 }
+

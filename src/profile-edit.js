@@ -24,7 +24,7 @@ export default class ProfileEdit extends React.Component {
                     age {profile.age}
                 </div>
                 <div>
-                    <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }>would you like to edit?</button>    
+                    <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }><i className="fas fa-edit"></i> like to edit?</button>    
                 </div>
             </div>
         )
@@ -37,7 +37,7 @@ export default class ProfileEdit extends React.Component {
                     here could go your fancy bio..
                 </div>
                 <div>
-                    <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }>would you like to add?</button>
+                    <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }><i className="fas fa-user-edit"></i> like to add?</button>
                 </div>
             </div>
         )
