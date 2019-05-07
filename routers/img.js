@@ -38,7 +38,7 @@ imgRouter.get('/api/getAvatar', guard, (req, res) => {
     console.log('get avatar..')
     db.getAvatar(req.session.isLoggedIn) 
         .then(({rows}) => {
-            console.log('index', rows);
+            // console.log('index', rows);
             res.json(rows)
         })
         .catch(err => {
@@ -64,7 +64,7 @@ imgRouter.get('/api/getImgByUserAll', guard, (req, res) => {
     console.log('para', req.params.id);
     db.getImgByUserAll(req.session.isLoggedIn)
         .then(({rows}) => {
-            console.log('index', rows);
+            // console.log('index', rows);
             res.json(rows)
         })
         .catch(err => {
@@ -78,7 +78,7 @@ imgRouter.post('/api/postImg', guard, uploader.single('iFile'), s3.upload, (req,
     if (req.file) {
         db.postNewImg(res.locals.newImg.url, res.locals.newImg.userId) 
             .then(dbEntry => {
-                console.log(dbEntry);
+                // console.log(dbEntry);
                 res.json({
                     success: true,
                     url: res.locals.newImg.url
@@ -100,7 +100,7 @@ imgRouter.post('/api/deleteImg', guard, s3.deleteImg, (req, res) => {
         console.log('deleting..', req.body.delId);
         db.deleteRow('images', 'id_img', req.body.delId)
             .then(({data}) => {
-                console.log('del img', data);
+                // console.log('del img', data);
                 res.json(data)
             })
             .catch(err => console.log('del err..', err))

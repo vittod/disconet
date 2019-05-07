@@ -10,6 +10,7 @@ import ProfileBrowser from './profile-browser'
 import Friends from './friends'
 import MainMenue from './main-menue'
 import PhotoBooth from './photo-booth'
+import Chat from './chat'
 import { setUser, toggleMainMenue } from './service/actions'
 
 
@@ -90,6 +91,7 @@ class App extends React.Component {
                         <div className="main-container">
                                 <Route exact path="/" render={() => (<Profile getProfile={this.getProfile} picSettings={this.showHide} avatar={this.state.avatar} />)} />
                                 <Route path="/user/:id" render={props => (<ProfileBrowser key={props.match.url} match={props.match} history={props.history} user={this.props.user}/>)} />
+                                <Route path="/chat" render={() => <Chat />} />
                                 <Route path="/friends" render={() => <Friends />} />
                         </div>
                         

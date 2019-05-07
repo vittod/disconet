@@ -4,12 +4,14 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux'
+import {init} from './service/socket-client'
+
 
 import reducer from './service/reducer'
 import Welcome from './auth/welcome';
 import App from './app.js';
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(reduxPromise)));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(reduxPromise)))
 
 let content 
 
@@ -20,7 +22,9 @@ if (location.pathname === '/welcome') {
         <Provider store={store}>
             <App />
         </Provider>
-    )
+    );
+    init(store)
+
 }
 
 
@@ -30,4 +34,4 @@ ReactDOM.render(
 );
 
 
-
+export {store}

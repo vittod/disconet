@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS profiles;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS stories;
 
 
 CREATE TABLE users (
@@ -43,18 +44,28 @@ CREATE TABLE friends (
 CREATE UNIQUE INDEX ifriends ON friends(GREATEST(id_from, id_to), LEAST(id_from, id_to));
 
 
--- CREATE TABLE comments (
---     id SERIAL PRIMARY key,
---     id_img_fk INTEGER NOT NULL,
---     comment VARCHAR(600),
---     username VARCHAR(150),
---     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (id_img_fk) REFERENCES images(id) ON DELETE CASCADE
--- );
+CREATE TABLE stories (
+    id_story SERIAL PRIMARY key,
+    id_user_fk INTEGER NOT NULL,
+    from_fk INTEGER NOT NULL REFERENCES users(id_user),
+    story TEXT,
+    story_pic_fk INTEGER,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user_fk) REFERENCES users(id_user) ON DELETE CASCADE
+);
 
 
 INSERT INTO users (first_name, last_name, email, password) 
 VALUES ('azerimuth', 'bandistan', 'azze@band.star', '$2a$10$fSD/BxUelaatobOAR5s6qOLHxq5RfKhl8buCd7gv83WgFceWH2zae');
+
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('Koljah', 'Stottmeister', 'a@a', '$2a$10$dc49pxZQ2SRM3BCSRDY3Zejjf7fJxRrrG3itPmGYJikzJKnY56FXC');
+
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('claudia', 'marquardt', 'b@b', '$2a$10$otkaKnmudAsiIySG6qmip.lqLiSrN2.8rdQFD4sTIRPklEPhoKKKK');
+
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('dico', 'duck', 'c@c', '$2a$10$sZqyqnyy5aooJ5VvMPAoveIxEqh7eskIihkalWmE4aEvzLvtprliS');
 
 INSERT INTO images (id_user_fk, url)
 VALUES (1, 'https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9LOPW.ico');

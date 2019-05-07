@@ -45,3 +45,28 @@ export function setBoothPhoto(photo) {
     }
 }
 
+export function setOnlineUsers(oUsers) {
+    return {
+        onlineUsers: oUsers,
+        type: 'SET_ONLINE_USERS'
+    }
+}
+
+export function joinOnlineUser(user) {
+    console.log('action', user)
+    
+    return {
+        user: user,
+        type: 'JOIN_ONLINE_USER'
+    }
+}
+
+export function deleteOnlineUser({delUser}) {
+    return {
+        delUser: delUser,
+        type: 'DELETE_ONLINE_USER'
+    }
+}
+
+
+

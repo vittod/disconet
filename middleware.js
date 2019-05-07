@@ -1,4 +1,5 @@
 const {app} = require('./index')
+const {io} = require('./routers/socket')
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const csurf = require('csurf')
@@ -18,13 +19,17 @@ if (process.env.NODE_ENV != 'production') {
     );
 } else {
     app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`))
-}     
+}      
 
 ///////////////////////// EXPORTS
-
-exports.cs = cs({ 
+let cSm
+exports.cs = cSm = cs({ 
     maxAge: 1000 * 60 * 60 * 24 * 14, 
     secret: process.env.SESSION_SECRET || require('./.secrets.json').cookieS 
+})
+                    ///////// use cs for socket.io
+io.use((socket, next) => {
+    cSm(socket.request, socket.request.res, next);
 })
 
 exports.csurf = csurf()

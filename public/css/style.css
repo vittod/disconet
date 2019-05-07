@@ -211,6 +211,13 @@ main {
     animation-timing-function: linear;
 }
 
+.booth-up-prev {
+    padding: 10px;
+    background: #f6f5f5;
+    outline: 1px dashed black;
+    outline-offset: -5px;
+}
+
 .modal-outer {
     position: fixed;
     top: 0;

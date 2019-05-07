@@ -69,7 +69,7 @@ class ImgUpload extends React.Component {
                         showLoader: false,
                         files: []
                     })
-                    this.props.dispatch(setBoothPhoto({}))
+                    this.props.dispatch(setBoothPhoto(false))
                     this.props.triggerRefresh()
                 } else {
                     this.renderError('something went wrong!')
@@ -115,7 +115,7 @@ class ImgUpload extends React.Component {
     render() {
         return (
             <div className="img-upload">
-                {!this.state.showLoader && 
+                {!this.props.boothPhoto && !this.state.showLoader && 
                 <div id="box-upload" className={this.state.dragOverClass} ref={dropF => this.dropzone = dropF}>
                         <input id="fileupload" onChange={this.handleFileSelect} ref={input => this.inputField = input} type="file" accept="image/*" multiple />
                         <label className="orange" onClick={this.doClickOnInput}><strong className="orange">Choose file</strong> or drag upon...</label>
@@ -124,13 +124,13 @@ class ImgUpload extends React.Component {
                         </div>
                 </div>}
 
-                {this.state.showLoader && 
+                {!this.props.boothPhoto && this.state.showLoader && 
                 <div id="box-uploading">
                     <i className="fas fa-sync-alt fa-spin"></i>
                 </div>}
 
                 {this.props.boothPhoto &&
-                <img src={this.props.boothPhoto.photo} />}
+                <img className="booth-up-prev" src={this.props.boothPhoto.photo} />}
 
                 <button className="button-invert button-full" onClick={this.setUpload}><i className="fas fa-upload  fa-2x" /></button>
                 <button onClick={() => this.props.dispatch(togglePhotoBooth(true))} className="button-invert button-full"><i className="fas fa-camera-retro fa-2x" /></button>

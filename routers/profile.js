@@ -10,7 +10,7 @@ profileRouter.get('/api/getProfile', (req, res) => {
     console.log('get profile..')
     db.getProfileById(req.session.isLoggedIn) 
         .then(({rows}) => {
-            console.log('index', rows);
+            // console.log('index', rows);
             res.json(rows)
         })
         .catch(err => {
@@ -36,7 +36,7 @@ profileRouter.get('/api/getProfile/:id', guard, (req, res) => {
     console.log('get other profile..')
     db.getOtherProfile(req.params.id) 
         .then(({rows}) => {
-            console.log('index', rows);
+            // console.log('index', rows);
             res.json(rows)
         })
         .catch(err => {

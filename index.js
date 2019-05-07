@@ -1,7 +1,8 @@
-process.env.NODE_ENV = 'develpoment';               //////////////////change when PROD 
+process.env.NODE_ENV = 'develpoment'                                                          //////////////////change when PROD 
 
-const express = require('express');
-const app = module.exports.app = express();
+const express = require('express')
+const app = module.exports.app = express()
+const {server} = require('./routers/socket')
 
 const authRouter = require('./routers/auth')
 const imgRouter = require('./routers/img')
@@ -16,7 +17,7 @@ const mw = require('./middleware.js')
 
 app.use(mw.cs)
 app.use(mw.csurf)
-app.use(mw.cToken)
+app.use(mw.cToken) 
 app.use(mw.helmet)     
 app.use(mw.compress)
 app.use(mw.bParserJ)
@@ -44,8 +45,37 @@ app.get('/logout', (req, res) => {
 
 app.get('*', mw.isLoggedOut, (req, res) => {
     res.sendFile(__dirname + '/index.html')
-});
+})
 
-app.listen(8080, function() {
+server.listen(8080, () => {
     console.log("server listening..")
-});
+})
+
+
+////////////////////////////////////////////////// SOCKET IO
+////////////////////////////////////////////////////////////
+
+
+// let onlineUsers = {};
+
+// io.on('connection', socket => {
+
+//     console.log(`socket with the id ${socket.id} is now connected`)
+
+//     const userId = socket.request.session.isLoggedIn
+
+//     console.log('user id has been mounted', userId)
+
+//     onlineUsers[socket.id] = userId
+
+//     console.log('online useres object', onlineUsers)
+
+//     socket.emit('test', {
+//         msg: 'this is a test'
+//     })
+
+//     socket.on('disconnect', () => {
+//         console.log(`socket with the id ${socket.id} is now disconnected`);
+//     })
+
+// })
