@@ -15,19 +15,25 @@ export default function reducer(state = {}, action) {
         case 'SET_ONLINE_USERS': return {...state, onlineUsers: action.onlineUsers }; break 
 
         case 'JOIN_ONLINE_USER':{ 
-            console.log('des1', Object.keys(action.user)[0])  
-            console.log('des2', Object.values(action.user)[0])  
-            return {...state, onlineUsers: {...state.onlineUsers, [Object.keys(action.user)[0]]: Object.values(action.user)[0]} }; break
+            console.log('nu user:', action.user)
+            return state.onlineUsers ? {...state, onlineUsers:  [...state.onlineUsers, action.user] } : state; break
         } 
         
         case 'DELETE_ONLINE_USER': {
-            let nuOnUsers = {...state.onlineUsers}
-            console.log('useres copy', nuOnUsers)
-            delete nuOnUsers[action.delUser]
-            console.log('deleted', nuOnUsers)
+            let nuOnUsers = state.onlineUsers.filter(user => user.socket != action.delUser)
+            console.log('users delete.. copy:', nuOnUsers)
             return {...state, onlineUsers: nuOnUsers }; 
-        } break 
+        } break
 
+        case 'SET_RECENT_CHATTER': return {...state, chatter: action.chatter }; break
+
+        case 'NU_CHAT': {
+            let nuChatter = state.chatter.slice()
+            nuChatter.unshift(action.chat)
+            return {...state, chatter: nuChatter}
+         } break  
+
+        case 'ADD_TO_USER': return {...state, user: {...state.user, url: action.elem} }; break 
 
     }
         

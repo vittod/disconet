@@ -2,7 +2,6 @@ import axios from './axios'
 
 export async function getAllFriends() {
     const {data} = await axios.get('/api/getAllFriends/friends')
-    console.log('action', data)
     return {
         friends: data,
         type: 'GET_ALL_FRIENDS'   
@@ -10,7 +9,6 @@ export async function getAllFriends() {
 }
 export async function getAllFrientees() {
     const {data} = await axios.get('/api/getAllFriends/pending')
-    console.log('action', data)
     return {
         frientees: data,
         type: 'GET_ALL_FRIENTEES'   
@@ -38,6 +36,13 @@ export function setUser(user) {
     }
 }
 
+export function addToUser(elem) {
+    return {
+        elem: elem,
+        type: 'ADD_TO_USER'
+    }
+}
+
 export function setBoothPhoto(photo) {
     return {
         boothPhoto: photo,
@@ -45,18 +50,16 @@ export function setBoothPhoto(photo) {
     }
 }
 
-export function setOnlineUsers(oUsers) {
+export function setOnlineUsers(allUsers) {
     return {
-        onlineUsers: oUsers,
+        onlineUsers: allUsers,
         type: 'SET_ONLINE_USERS'
     }
 }
 
-export function joinOnlineUser(user) {
-    console.log('action', user)
-    
+export function joinOnlineUser(newUser) {
     return {
-        user: user,
+        user: newUser,
         type: 'JOIN_ONLINE_USER'
     }
 }
@@ -65,6 +68,21 @@ export function deleteOnlineUser({delUser}) {
     return {
         delUser: delUser,
         type: 'DELETE_ONLINE_USER'
+    }
+}
+
+export function setRecentChatter(chatter) {  
+    return {
+        chatter: chatter,
+        type: 'SET_RECENT_CHATTER'
+    }
+}
+
+export function nuChat(chat) {  
+    console.log('got nu chat..', chat)
+    return {
+        chat: chat,
+        type: 'NU_CHAT'
     }
 }
 

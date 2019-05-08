@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux'
-import {init} from './service/socket-client'
+import { connectSocket } from './service/socket-client'
 
 
 import reducer from './service/reducer'
@@ -18,13 +18,12 @@ let content
 if (location.pathname === '/welcome') {
     content = <Welcome store={store} />
 } else {
+    connectSocket(store);
     content = (
         <Provider store={store}>
             <App />
         </Provider>
     );
-    init(store)
-
 }
 
 
@@ -32,6 +31,5 @@ ReactDOM.render(
     content,
     document.querySelector('main')
 );
-
 
 export {store}

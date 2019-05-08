@@ -1,18 +1,25 @@
 import * as io from 'socket.io-client'
 import { store } from '../start'
-import { setOnlineUsers, joinOnlineUser, deleteOnlineUser } from './actions'
+
+import { setOnlineUsers, joinOnlineUser, deleteOnlineUser, setRecentChatter, nuChat } from './actions'
+
 
 export let socket;
 
-export function init(store) {
+export function connectSocket(store) {
+    console.log('socket prev..', socket)
     if (!socket) {
         socket = io.connect();
+        console.log('socket after..', socket)
 
+        socket.on('onlineUsers', allUsers => store.dispatch(setOnlineUsers(allUsers)))
 
-        socket.on('onlineUsers', oUsers => store.dispatch(setOnlineUsers(oUsers)))
+        socket.on('userJoined', newUser => store.dispatch(joinOnlineUser(newUser)))
 
-        socket.on('userJoined', user => store.dispatch(joinOnlineUser(user)))
+        socket.on('userLeft', delUser => store.dispatch(deleteOnlineUser(delUser)))
 
-        socket.on('userLeft', user => store.dispatch(deleteOnlineUser(user)))
+        socket.on('recentChatter', chatter => store.dispatch(setRecentChatter(chatter)))
+        
+        socket.on('nuChatter', chat => store.dispatch(nuChat(chat))) 
     }
 }

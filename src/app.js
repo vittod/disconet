@@ -11,7 +11,7 @@ import Friends from './friends'
 import MainMenue from './main-menue'
 import PhotoBooth from './photo-booth'
 import Chat from './chat'
-import { setUser, toggleMainMenue } from './service/actions'
+import { setUser, toggleMainMenue, addToUser } from './service/actions'
 
 
 
@@ -63,7 +63,10 @@ class App extends React.Component {
 
     getAvatarFromDb() {
         axios.get('/api/getAvatar')
-            .then(({data}) => this.setAvatar(data[0].url))
+            .then(({data}) => {
+                this.setAvatar(data[0].url)
+                this.props.dispatch(addToUser(data[0].url))
+            })
             .catch(err => console.log(err))
     }
 
