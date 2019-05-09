@@ -12,7 +12,22 @@ export default function reducer(state = {}, action) {
 
         case 'SET_BOOTH_PHOTO': return {...state, boothPhoto: action.boothPhoto }; break 
 
-        case 'SET_ONLINE_USERS': return {...state, onlineUsers: action.onlineUsers }; break 
+        case 'SET_ONLINE_USERS':{ 
+            if (action.onlineUsers) {
+                let sortedAndFiltered = action.onlineUsers
+                    .sort((a, b) => a.userId - b.userId)
+                    .filter((el, i, arr) => {
+                        if (i){
+                            return arr[i - 1].userId != el.userId 
+                        } else {
+                            return true
+                        }
+                    })
+                return {...state, onlineUsers: sortedAndFiltered }
+            } else {
+                return state
+            }
+        } break  
 
         case 'JOIN_ONLINE_USER':{ 
             console.log('nu user:', action.user)
@@ -34,6 +49,8 @@ export default function reducer(state = {}, action) {
          } break  
 
         case 'ADD_TO_USER': return {...state, user: {...state.user, url: action.elem} }; break 
+
+        case 'NU_USERS_FROM_QUERY': return {...state, usersRange: action.users }; break 
 
     }
         

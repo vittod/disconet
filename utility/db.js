@@ -1,6 +1,6 @@
 const spicedPg = require('spiced-pg');
 const hb = require('./hashPass');
-const { saniStrToNum, sanitizer, checkUrl } = require('./userInputFormatter');
+const { sanitizer } = require('./userInputFormatter');
 
 const dbUrl = process.env.DATABASE_URL || `postgres://${require('../.secrets.json').dbAccess}@localhost:5432/socialnettwerk`;
 const db = spicedPg(dbUrl)
@@ -56,7 +56,7 @@ exports.getAvatar = (id) => {
         WHERE profiles.id_user_fk = $1;
     `;
     params = [id];
-    return db.query(q, params)
+    return db.query(q, params) 
 }
 
 exports.setAvatar = (userId, imgId) => {
@@ -75,6 +75,53 @@ exports.postNewImg = (url, userId) => {
     let q = `
         INSERT INTO images (url, id_user_fk)
         VALUES ($1, $2) RETURNING id_img;`;
+    return db.query(q, params)
+}
+
+
+exports.getRecentUsers = () => {
+    let q = `
+        SELECT id_user, first_name AS first, last_name AS last, url, (
+            SELECT id_user FROM users
+            ORDER BY id_user ASC
+            LIMIT 1
+        ) AS lowest_id, (
+            SELECT id_user FROM users
+            ORDER BY id_user DESC
+            LIMIT 1
+        ) AS highest_id FROM users
+        LEFT JOIN profiles 
+        ON id_user = profiles.id_user_fk
+        LEFT JOIN images
+        ON avatar = images.id_img
+        ORDER BY id_user DESC
+        LIMIT 6;`
+
+    return db.query(q)
+}
+
+exports.getQueryUsers = (str) => {
+    params = [str]
+    let q = `
+        SELECT id_user, first_name AS first, last_name AS last, url, (
+            SELECT id_user FROM users
+            ORDER BY id_user ASC
+            LIMIT 1
+        ) AS lowest_id, (
+            SELECT id_user FROM users
+            ORDER BY id_user DESC
+            LIMIT 1
+        ) AS highest_id FROM users
+        LEFT JOIN profiles 
+        ON id_user = profiles.id_user_fk
+        LEFT JOIN images
+        ON avatar = images.id_img
+        WHERE first_name ILIKE $1
+        OR last_name ILIKE $1
+        ORDER BY id_user DESC
+        LIMIT 3;
+    `;
+
     return db.query(q, params)
 }
 
@@ -179,6 +226,26 @@ exports.cancelFriendship = (idFrom, idTo) => {
     let params = [idFrom, idTo];
     return db.query(q, params)
 }
+
+///////////////////////////////////////////////// WALL POSTS
+////////////////////////////////////////////////////////////
+
+exports.getUserStories = (userId) => {
+    let q = `SELECT * FROM stories WHERE id_user_fk = $1;`;
+    params = [userId];
+    return db.query(q, params)
+}
+
+
+exports.postUserStory = (userId, authorId, story, picUrl) => {
+    let q = `
+        INSERT INTO stories (id_user_fk, from_fk, story, story_pic_fk)
+        VALUES ($1, $2, $3, $4);
+    `;
+    params = [userId, authorId, story, picUrl];
+    return db.query(q, params)
+}
+
 
 //////////////////////////////////////////// GENERAL QUERIES
 ////////////////////////////////////////////////////////////

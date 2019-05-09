@@ -13,8 +13,10 @@ class Chat extends React.Component {
             chatter: ''
         }
 
+        let inputField
         this.sentChatMsg = this.sentChatMsg.bind(this)
         this.handleChatText = this.handleChatText.bind(this)
+        this.datePipe = this.datePipe.bind(this)
     }
 
     sentChatMsg(e) {
@@ -29,11 +31,17 @@ class Chat extends React.Component {
             date: Date()
         })
 
-        this.setState({chatter: ''})   //////////value von textarea ....
+        this.inputField.value = ''
+        this.setState({chatter: ''}) 
     }
 
     handleChatText(e) {
         this.setState({chatter: e.target.value})
+    }
+
+    datePipe(dateStr) {
+        let now = new Date(dateStr)
+        return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${now.getMonth()}/${now.getDay()}/${now.getFullYear()}`
     }
 
     render() {
@@ -48,7 +56,13 @@ class Chat extends React.Component {
                     )) }
                 </div>
                 <div className="chat-area">
-                    <h2>Mass Chat <em>Live</em></h2>
+
+                    <h2>Mass Chatter <em>Live!</em></h2>
+                    <form>
+                        <input className="input-bigger" onChange={this.handleChatText} ref={inp => this.inputField = inp} />
+                        <button onClick={this.sentChatMsg}>send</button>
+                    </form>
+
                     <div className="mass-chat border-move">
 
 
@@ -63,20 +77,15 @@ class Chat extends React.Component {
                                     <h4>
                                         {chat.msg}
                                     </h4>
-                                </div>
-                                <div className="chat-meta">
-                                    {chat.first} - {chat.date} 
+                                    <div className="chat-meta">
+                                        {chat.first} - {this.datePipe(chat.date)} 
+                                    </div>
                                 </div>
                             </div>
 
                         )}
 
                     </div>
-                    <form>
-                        <textarea onChange={this.handleChatText} />
-                        {this.state.chatter}
-                        <button onClick={this.sentChatMsg}>send</button>
-                    </form>
                 </div>
             </>
         )

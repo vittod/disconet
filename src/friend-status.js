@@ -1,9 +1,10 @@
 import React from 'react';
 
 import axios from './service/axios'
+import Stories from './Stories'
 
 
-export default class FriendButton extends React.Component {
+export default class FriendStatus extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -85,6 +86,8 @@ export default class FriendButton extends React.Component {
         return (
             <>
                 {this.state.user && this.props.idFriend != this.state.user && this.renderFriendButton()}
+
+                {this.state.status === 'friends' && <Stories idFriend={this.props.idFriend} />}
             </>
         )
     }

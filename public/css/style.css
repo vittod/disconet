@@ -51,7 +51,7 @@ main {
     /* justify-content: space-between; */
     flex-direction: column;
     /* align-items: center; */
-    height: 100%;
+    min-height: 100%;
     width: 90%;
     background: rgba(240, 144, 39, 0.6);
 }
@@ -334,12 +334,21 @@ main {
 
 .active-users {
     display: flex;
+    margin-top: 5px;
+    margin-right: 1%;
+    margin-left: 1%;
 }
 
-.chat-area {
+.chat-area, .search-area {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.input-bigger {
+    height: 2em;
+    background: rgba(240, 144, 39, 0.5);
+    margin-bottom: 2em;
 }
 
 .mass-chat {
@@ -351,11 +360,36 @@ main {
     overflow: scroll;
 }
 
+.chat-card {
+    display: flex;
+    margin: 5px;
+}
+.chat-msg {
+    margin-left: 5px;
+}
+
 .border-move {
 	background-image: linear-gradient(90deg, #f0f2eb 50%, transparent 50%), linear-gradient(90deg, #f0f2eb 50%, transparent 50%), linear-gradient(0, #f0f2eb 50%, transparent 50%), linear-gradient(0, #f0f2eb 50%, transparent 50%);
 	background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
 	background-size: 50px 5px, 50px 5px, 5px 50px, 5px 50px;
 	animation: moving-border 2000ms infinite linear;
+}
+
+/*//////////////////////////////////// wall ////////////////////////////////////////////  */
+
+.wall {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.inner-wall{
+    width: 95%;
+    max-height: 400px;    
+    background: rgba(240, 144, 39, 0.4);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: scroll;
 }
 
 /*////////////////////////////////////  control surface ////////////////////////////////  */

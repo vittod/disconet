@@ -22,6 +22,11 @@ io.on('connection', socket => {
     socket.on('incommingChat', chat => {
         handleIncomeChat(chat)
     })
+
+    socket.on('getUserRange', range => {
+        console.log('snvcksvckasjckndknj', range)
+        getUserRange(range, socket)
+    })
     
     socket.on('disconnect', () => {
         console.log(`socket ${socket.id} is disconnected`)
@@ -41,14 +46,14 @@ async function handleUSer(user, socket) {
             last: rows[0].last,
             url: rows[0].url
         }
-        console.log('userAggr', userAggr.first)
+        //console.log('userAggr', userAggr.first)
         
         if (!onlineUsers.filter(el => el.userId == user).length) {
             io.sockets.emit('userJoined', userAggr)
         }
 
         onlineUsers.push(userAggr)
-        onlineUsers.forEach(el => console.log('online', el. first))
+        //onlineUsers.forEach(el => console.log('online', el. first))
 
         socket.emit('onlineUsers', onlineUsers)
         
@@ -64,7 +69,7 @@ async function sendRecentChatter(socket) {
 
     try {
         let chatStore = await redis.get('chatStore')
-        chatStore = JSON.parse(chatStore)//.slice(10) //////// dDODOOOOO STUUUUFFFFFFF
+        chatStore = JSON.parse(chatStore).slice(0, 10)
         socket.emit('recentChatter', chatStore) 
     } catch (err) {
         console.log('err send/get recent chat..', err)
@@ -77,14 +82,30 @@ async function handleIncomeChat(chat) {
         let chatStore = await redis.get('chatStore')
         chatStore == null ? chatStore = [] : chatStore = JSON.parse(chatStore)
         chatStore.unshift(chat)
-        console.log('chatstore get..', chatStore)
-        let storeInfo = await redis.setex('chatStore', 18000, JSON.stringify(chatStore))
+        //console.log('chatstore get..', chatStore)
+        let storeInfo = await redis.setex('chatStore', 172800, JSON.stringify(chatStore))
         console.log('storeNfo', storeInfo)
     } catch (err) {
         console.log('err store nue chat in redis..', err)
     }
 }
 
+async function getUserRange(range, socket) {
+    try {
+        if (range) {
+            //console.log('real range req..', `%${range}%` )
+            let {rows} = await db.getQueryUsers(`%${range}%`)
+            //console.log('got..', rows)
+            io.to(socket.id).emit('userQuery', rows)
+        } else {
+            let {rows} = await db.getRecentUsers()
+            //console.log('got to..', rows)
+            io.to(socket.id).emit('userQuery', rows)
+        }
+    } catch (err) {
+        console.log('err get user range..', err)
+    }
 
+}
 
 module.exports.server = server

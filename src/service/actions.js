@@ -79,10 +79,17 @@ export function setRecentChatter(chatter) {
 }
 
 export function nuChat(chat) {  
-    console.log('got nu chat..', chat)
     return {
         chat: chat,
         type: 'NU_CHAT'
+    }
+}
+
+export function userQuery(users) {  
+    console.log('got nu users from query..', users)
+    return {
+        users: users,
+        type: 'NU_USERS_FROM_QUERY'
     }
 }
 

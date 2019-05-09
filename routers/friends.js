@@ -2,10 +2,10 @@ const express = require('express')
 const friendsRouter = express.Router()
 
 const db = require('../utility/db')
-const {guard} = require('../middleware')   /////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+const {guard} = require('../middleware')  
 
 friendsRouter.get('/api/getAllFriends/:status', guard, (req, res) => {
-    console.log('gettin hereo..')
+    //console.log('gettin hereo..')
     db.getAllFriends(req.session.isLoggedIn, req.params.status)
         .then(({rows}) => {
             rows.map(el => {
@@ -28,7 +28,7 @@ friendsRouter.get('/api/getAllFriends/:status', guard, (req, res) => {
 })
 
 friendsRouter.get('/api/getFriendship/:id', guard, (req, res) => {
-    console.log('got friendcheck..', req.params.id)
+    //console.log('got friendcheck..', req.params.id)
     db.getFriendship(req.session.isLoggedIn, req.params.id)
         .then(({rows}) => {
             res.json({
@@ -48,7 +48,7 @@ friendsRouter.get('/api/getFriendship/:id', guard, (req, res) => {
 })
 
 friendsRouter.post('/api/makeFriendReq', guard, (req, res) => {
-    console.log('make friendreq..', req.body.id)
+    //console.log('make friendreq..', req.body.id)
     db.getFriendship(req.session.isLoggedIn, req.body.id)
         .then(({rows}) => {
             console.log('got friend from db..', rows)
@@ -84,7 +84,7 @@ friendsRouter.post('/api/makeFriendReq', guard, (req, res) => {
 })
 
 friendsRouter.post('/api/answerFriendReq', guard, (req, res) => {
-    console.log('answer friendreq..', req.body.id)
+    //console.log('answer friendreq..', req.body.id)
     db.getFriendship(req.session.isLoggedIn, req.body.id)
         .then(({rows}) => {
             console.log('got friend from db..', rows[0])
@@ -120,7 +120,7 @@ friendsRouter.post('/api/answerFriendReq', guard, (req, res) => {
 })
 
 friendsRouter.post('/api/cancelFriendship',guard, (req, res) => {
-    console.log('cancel friendreq..', req.body.id)
+    //console.log('cancel friendreq..', req.body.id)
     db.cancelFriendship(req.session.isLoggedIn, req.body.id)
         .then(() => {
             console.log('terminated frindship..')

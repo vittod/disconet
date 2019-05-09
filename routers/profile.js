@@ -7,7 +7,7 @@ const {guard} = require('../middleware')
 
 
 profileRouter.get('/api/getProfile', (req, res) => {
-    console.log('get profile..')
+    //console.log('get profile..')
     db.getProfileById(req.session.isLoggedIn) 
         .then(({rows}) => {
             // console.log('index', rows);
@@ -20,7 +20,7 @@ profileRouter.get('/api/getProfile', (req, res) => {
 })
 
 profileRouter.post('/api/setProfile', guard, (req, res) => {
-    console.log('set profile..', req.session.isLoggedIn)
+    //console.log('set profile..', req.session.isLoggedIn)
     db.setProfile(req.session.isLoggedIn, req.body.bio, req.body.age, req.body.city)
         .then(() => {
             console.log('set');
@@ -33,7 +33,7 @@ profileRouter.post('/api/setProfile', guard, (req, res) => {
 })
 
 profileRouter.get('/api/getProfile/:id', guard, (req, res) => {
-    console.log('get other profile..')
+    //console.log('get other profile..')
     db.getOtherProfile(req.params.id) 
         .then(({rows}) => {
             // console.log('index', rows);
