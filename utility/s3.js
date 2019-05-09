@@ -5,16 +5,21 @@ const path = require('path')
 
 let sec;
 if (process.env.NODE_ENV == 'production') {
-    sec = process.env; // in prod the secrets are environment variables
+    sec = process.env.AWS; // in prod the secrets are environment variables
+    var client = knox.createClient({
+        key: process.env.AWS_KEY,
+        secret: process.env.AWS_SECRET,
+        bucket: 'socialnettwerk'
+    });
 } else {
     sec = require('../.secrets');
+    var client = knox.createClient({
+        key: sec.AWS.AWS_KEY,
+        secret: sec.AWS.AWS_SECRET,
+        bucket: 'socialnettwerk'
+    });
 }
 
-const client = knox.createClient({
-    key: sec.AWS.AWS_KEY,
-    secret: sec.AWS.AWS_SECRET,
-    bucket: 'socialnettwerk'
-});
 
 exports.upload = function(req, res, next) {
     console.log('got to s3..', req.file)

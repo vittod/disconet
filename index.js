@@ -49,8 +49,6 @@ app.get('*', mw.isLoggedOut, (req, res) => {
     res.sendFile(__dirname + '/index.html')
 })
 
-server.listen(8080, () => {
-    console.log("server listening..")
-})
+server.listen(process.env.PORT || 8080)
 
 
