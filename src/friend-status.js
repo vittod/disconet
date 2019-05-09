@@ -1,7 +1,7 @@
 import React from 'react';
 
 import axios from './service/axios'
-import Stories from './Stories'
+import Stories from './stories'
 
 
 export default class FriendStatus extends React.Component {
