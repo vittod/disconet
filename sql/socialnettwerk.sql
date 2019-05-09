@@ -1,9 +1,9 @@
 
+DROP TABLE IF EXISTS stories;
 DROP TABLE IF EXISTS profiles;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS friends;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS stories;
 
 
 CREATE TABLE users (
@@ -49,7 +49,7 @@ CREATE TABLE stories (
     id_user_fk INTEGER NOT NULL,
     from_fk INTEGER NOT NULL REFERENCES users(id_user),
     story TEXT,
-    story_pic_fk INTEGER,
+    story_pic_fk INTEGER REFERENCES images(id_img),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_user_fk) REFERENCES users(id_user) ON DELETE CASCADE
 );
@@ -65,7 +65,13 @@ INSERT INTO users (first_name, last_name, email, password)
 VALUES ('claudia', 'marquardt', 'b@b', '$2a$10$otkaKnmudAsiIySG6qmip.lqLiSrN2.8rdQFD4sTIRPklEPhoKKKK');
 
 INSERT INTO users (first_name, last_name, email, password) 
-VALUES ('dico', 'duck', 'c@c', '$2a$10$sZqyqnyy5aooJ5VvMPAoveIxEqh7eskIihkalWmE4aEvzLvtprliS');
+VALUES ('disco', 'duck', 'c@c', '$2a$10$sZqyqnyy5aooJ5VvMPAoveIxEqh7eskIihkalWmE4aEvzLvtprliS');
+
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('Disco', 'Tiger', 'd@d', '$2a$10$sZqyqnyy5aooJ5VvMPAoveIxEqh7eskIihkalWmE4aEvzLvtprliS');
+
+INSERT INTO users (first_name, last_name, email, password) 
+VALUES ('John', 'Travolta', 'e@e', '$2a$10$sZqyqnyy5aooJ5VvMPAoveIxEqh7eskIihkalWmE4aEvzLvtprliS');
 
 INSERT INTO images (id_user_fk, url)
 VALUES (1, 'https://socialnettwerk.s3.amazonaws.com/MPuNhosCMxUP2Ip0NakReq_s3rf9LOPW.ico');

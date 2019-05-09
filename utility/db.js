@@ -227,22 +227,30 @@ exports.cancelFriendship = (idFrom, idTo) => {
     return db.query(q, params)
 }
 
-///////////////////////////////////////////////// WALL POSTS
+//////////////////////////////////////////////////// STORIES
 ////////////////////////////////////////////////////////////
 
 exports.getUserStories = (userId) => {
-    let q = `SELECT * FROM stories WHERE id_user_fk = $1;`;
+    let q = `
+        SELECT story, id_story, users.first_name AS first , last_name AS last, from_fk, url, stories.created_at
+        FROM stories
+        LEFT JOIN users
+        ON from_fk = id_user 
+        LEFT JOIN images
+        ON id_img = story_pic_fk 
+        WHERE stories.id_user_fk = $1;
+    `;
     params = [userId];
     return db.query(q, params)
 }
 
 
-exports.postUserStory = (userId, authorId, story, picUrl) => {
+exports.postUserStory = (userId, authorId, story, imgId) => {
     let q = `
         INSERT INTO stories (id_user_fk, from_fk, story, story_pic_fk)
         VALUES ($1, $2, $3, $4);
     `;
-    params = [userId, authorId, story, picUrl];
+    params = [userId, authorId, story, imgId];
     return db.query(q, params)
 }
 

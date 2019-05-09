@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import axios from './service/axios'
+import { datePipe } from './service/pipes'
 import { togglePhotoBooth, setBoothPhoto } from './service/actions'
 
 
@@ -11,7 +12,8 @@ class Stories extends React.Component {
         super(props)
         this.state = {
             story: '',
-            allStories: []
+            allStories: [],
+            showLoader: false
         }
 
         let inputField
@@ -19,6 +21,8 @@ class Stories extends React.Component {
         this.getStories = this.getStories.bind(this)
         this.handleStory = this.handleStory.bind(this)
         this.togglePhotoBooth = this.togglePhotoBooth.bind(this)
+        this.uploadFile = this.uploadFile.bind(this)
+        this.setUpload = this.setUpload.bind(this)
     }
 
     componentDidMount() {
@@ -35,13 +39,12 @@ class Stories extends React.Component {
         }
     }
 
-    async handleStory(e) {
-        e.preventDefault()
+    async handleStory(imgId) {
         try {
             let res = await axios.post('/api/postUserStory', {
                 story: this.state.story,
                 target: this.props.idFriend,
-                picUrl: ''                              ////////////////DO SOMETHING HERE
+                imgId: imgId                         
             })
             console.log('res post..', res)
             this.inputField.value = ''
@@ -56,23 +59,69 @@ class Stories extends React.Component {
         this.props.dispatch(togglePhotoBooth(true))
     }
 
+    uploadFile() {  
+        this.setState({showLoader: true})
+
+        let upData = new FormData();
+        upData.append('iUser', this.props.user.id_user);  
+        upData.append('iFile', this.props.boothPhoto.blob);
+        console.log('upload..', upData)
+        axios.post('/api/postImg', upData)                
+            .then(({data}) => {
+                if (data) {
+                    this.handleStory(data.imgId.rows[0].id_img)
+                    console.log('post img success..', data.imgId.rows[0].id_img);
+                    this.setState({
+                        showLoader: false,
+                    })
+                    this.props.dispatch(setBoothPhoto(false))
+                } 
+            }) 
+            .catch(err => {
+                console.log('err upload..', err);
+                this.renderError('something went wrong!')
+            })
+    }
+
+    setUpload(e) {
+        e.preventDefault()
+        this.props.boothPhoto ? this.uploadFile() : this.handleStory(null)
+    }
+
     render() {
         return (
             <div className="wall">
                 <h2>Disco Stories</h2>
                 <div className="inner-wall">
                     {this.state.allStories && 
-                    this.state.allStories.map((el, i) => {
-                        //console.log('loggin render', el)
-                        return <div key={i}>{el.story}</div>
+                    this.state.allStories.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((el, i, arr) => {
+                        console.log('loggin render', el)
+                        return (
+                        
+                            <div className="story" key={i}>
+                                <div className="story-content">
+                                    <h3>{el.story} </h3>
+                                    <img src={el.url} />
+                                </div>
+                                <div className="story-meta">
+                                    {el.first} {el.last} - {datePipe(el.created_at)}
+                                </div>                            
+                                {arr.length - 1 > i  && <div className="thin-line" />}
+                            </div>
+                
+                        )
                     })}
                 </div>
                 
                 <form>
-                    <input className="input-bigger" onChange={(e) => this.setState({story: e.target.value})} ref={inp => this.inputField = inp} />
-                    {this.props.boothPhoto &&
+                    <input className="input-bigger button-full" onChange={(e) => this.setState({story: e.target.value})} ref={inp => this.inputField = inp} />
+                    {this.props.boothPhoto && !this.state.showLoader && 
                     <img className="booth-up-prev" src={this.props.boothPhoto.photo} />}
-                    <button onClick={this.handleStory}><i className="fas fa-upload  fa-2x" /></button>
+                    {this.state.showLoader && 
+                    <div id="box-uploading">
+                        <i className="fas fa-sync-alt fa-spin"></i>
+                    </div>}
+                    <button onClick={this.setUpload} className="button-invert button-full"><i className="fas fa-upload  fa-2x" /></button>
                     <button onClick={this.togglePhotoBooth} className="button-invert button-full"><i className="fas fa-camera-retro fa-2x" /></button>
                 </form>
             </div>
@@ -82,7 +131,8 @@ class Stories extends React.Component {
 
 const mapStateToProps = function(state) {
     return {
-        boothPhoto: state.boothPhoto
+        boothPhoto: state.boothPhoto,
+        user: state.user
     };
 };
 

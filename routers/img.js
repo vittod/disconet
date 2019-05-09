@@ -30,7 +30,7 @@ const uploader = multer({
         fileSize: 2097152
     }
 })
-
+ 
 //////////////////////////////////////////////////    ROUTES
 ////////////////////////////////////////////////////////////
 
@@ -81,7 +81,8 @@ imgRouter.post('/api/postImg', guard, uploader.single('iFile'), s3.upload, (req,
                 // console.log(dbEntry);
                 res.json({
                     success: true,
-                    url: res.locals.newImg.url
+                    url: res.locals.newImg.url,
+                    imgId: dbEntry
                 });
             })
             .catch(err => {

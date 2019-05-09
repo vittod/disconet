@@ -27,7 +27,7 @@ storiesRouter.get('/api/getUserStory/:id', guard, (req, res) => {
 
 storiesRouter.post('/api/postUserStory', guard, (req, res) => {
     console.log('post story..', req.body)
-    db.postUserStory(req.body.target, req.session.isLoggedIn, req.body.story)
+    db.postUserStory(req.body.target, req.session.isLoggedIn, req.body.story, req.body.imgId)
         .then(({rows}) => {
             console.log('posted stories..')
                 res.json({

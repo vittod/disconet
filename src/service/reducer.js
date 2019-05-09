@@ -43,7 +43,8 @@ export default function reducer(state = {}, action) {
         case 'SET_RECENT_CHATTER': return {...state, chatter: action.chatter }; break
 
         case 'NU_CHAT': {
-            let nuChatter = state.chatter.slice()
+            let nuChatter
+            if (state.chatter) nuChatter = state.chatter.slice()
             nuChatter.unshift(action.chat)
             return {...state, chatter: nuChatter}
          } break  

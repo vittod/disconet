@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 import { socket } from "./service/socket-client";
+import { datePipe } from './service/pipes'
 import ProfilePic from './profile-pic'
 
 
@@ -16,7 +17,6 @@ class Chat extends React.Component {
         let inputField
         this.sentChatMsg = this.sentChatMsg.bind(this)
         this.handleChatText = this.handleChatText.bind(this)
-        this.datePipe = this.datePipe.bind(this)
     }
 
     sentChatMsg(e) {
@@ -39,10 +39,6 @@ class Chat extends React.Component {
         this.setState({chatter: e.target.value})
     }
 
-    datePipe(dateStr) {
-        let now = new Date(dateStr)
-        return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${now.getMonth()}/${now.getDay()}/${now.getFullYear()}`
-    }
 
     render() {
         return (
@@ -78,7 +74,7 @@ class Chat extends React.Component {
                                         {chat.msg}
                                     </h4>
                                     <div className="chat-meta">
-                                        {chat.first} - {this.datePipe(chat.date)} 
+                                        {chat.first} - {datePipe(chat.date)} 
                                     </div>
                                 </div>
                             </div>
