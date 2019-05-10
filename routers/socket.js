@@ -27,6 +27,8 @@ io.on('connection', socket => {
         console.log('snvcksvckasjckndknj', range)
         getUserRange(range, socket)
     })
+
+    socket.on('refreshStory', id => io.sockets.emit('refreshStoryClient', id))
     
     socket.on('disconnect', () => {
         console.log(`socket ${socket.id} is disconnected`)

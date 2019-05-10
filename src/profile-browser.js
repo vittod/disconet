@@ -29,7 +29,7 @@ export default class ProfileBrowser extends React.Component {
         return (
             <div>
                 <div>
-                    this is the fancy bio.. <br />
+                    <h4>this is the fancy bio.. </h4>
                     {this.state.profile.bio} <br />
                 </div>               
             </div>
@@ -40,7 +40,7 @@ export default class ProfileBrowser extends React.Component {
         return (
             <div>
                 <div className="bio-area">
-                    no bio yet..
+                <h4> no bio yet.. </h4>
                 </div>
             </div>
         )
@@ -52,7 +52,7 @@ export default class ProfileBrowser extends React.Component {
                 <div className="profile-content">
                     <ProfilePic bigger="true" avatar={this.state.profile.url} />
                     <div className="profile-render">
-                        <h3> {this.state.profile.first} {this.state.profile.last} </h3>
+                        <h2> <span className="title-font">  {this.state.profile.first} {this.state.profile.last} </span></h2>
                         {this.state.profile.bio ? this.renderProfile(this.state.profile) : this.renderDefault()}
                     </div>
                 </div>

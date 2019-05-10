@@ -2,9 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { socket } from "./service/socket-client";
 import ProfilePic from './profile-pic';
-//import axios from './service/axios';
 import ProfileEdit from './profile-edit'
+import Stories from './stories'
 
 
 
@@ -15,25 +16,10 @@ class Profile extends React.Component {
             profile: {}
         }
     }
-    //     this.getProfile = this.getProfile.bind(this)
-    // }
-
-    // componentDidMount() {
-    //     this.getProfile()
-    // }
-
-    // async getProfile() {
-    //     console.log('got called')
-    //     try {
-    //         let {data} = await axios.get('/api/getProfile')
-    //         this.props.dispatch(setUser(data[0]))
-    //         console.log('parent', this.state.profile);
-        
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-        
-    // }
+   
+    componentDidUpdate() {
+        this.props.user && socket.emit('refreshStory', this.props.user.id_user)
+    }
 
     render() {
         return (
@@ -45,6 +31,7 @@ class Profile extends React.Component {
                 <div className="profile-footer">
                     {this.props.user && <Link to={`/user/${this.props.user.id_user}`}>would you like to see your site as others do?</Link>}
                 </div>
+                {this.props.user && <Stories idFriend={this.props.user.id_user} />}
             </div>
         )
     }

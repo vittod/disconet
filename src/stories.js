@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import axios from './service/axios'
+import { socket } from "./service/socket-client";
 import { datePipe } from './service/pipes'
 import { togglePhotoBooth, setBoothPhoto } from './service/actions'
 
@@ -27,9 +28,11 @@ class Stories extends React.Component {
 
     componentDidMount() {
         this.getStories()
+        socket.on('refreshStoryClient', id => {if (id == this.props.idFriend) this.getStories()})
     }
 
     async getStories() {
+        console.log('idfriend', this.props.idFriend)
         try {
             let {data} = await axios.get(`/api/getUserStory/${this.props.idFriend}`)
             console.log('got story..', data.story)
@@ -46,6 +49,7 @@ class Stories extends React.Component {
                 target: this.props.idFriend,
                 imgId: imgId                         
             })
+            socket.emit('refreshStory', this.props.idFriend)  ////send refresh request to server..
             console.log('res post..', res)
             this.inputField.value = ''
             this.setState({story: ''})
@@ -118,10 +122,10 @@ class Stories extends React.Component {
                     {this.props.boothPhoto && !this.state.showLoader && 
                     <img className="booth-up-prev" src={this.props.boothPhoto.photo} />}
                     {this.state.showLoader && 
-                    <div id="box-uploading">
-                        <i className="fas fa-sync-alt fa-spin"></i>
+                    <div id="box-uploading" className="button-full">
+                        <i className="fas fa-sync-alt fa-2x fa-spin"></i>
                     </div>}
-                    <button onClick={this.setUpload} className="button-invert button-full"><i className="fas fa-upload  fa-2x" /></button>
+                    <button onClick={this.setUpload} className="button-invert button-full"><i className="fas fa-upload fa-2x" /></button>
                     <button onClick={this.togglePhotoBooth} className="button-invert button-full"><i className="fas fa-camera-retro fa-2x" /></button>
                 </form>
             </div>

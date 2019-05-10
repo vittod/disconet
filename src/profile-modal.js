@@ -42,6 +42,7 @@ export default class ProfileModal extends React.Component {
                 city: this.state.city
             })
             this.props.refreshProfile()
+            this.props.closeModal()
         } catch (err) {
             
         }
@@ -55,7 +56,7 @@ export default class ProfileModal extends React.Component {
                     <textarea value={this.state.bio} onChange={e => this.setState({bio: e.target.value})} />
                     <input value={this.state.city} onChange={e => this.setState({city: e.target.value})} />
                     <input value={this.state.age} onChange={e => this.setState({age: e.target.value})} />
-                    <button  className="button-invert" onClick={this.updateProfileData}>ok</button>
+                    <button  className="button-invert button-full" onClick={this.updateProfileData}><i className="fas fa-upload" /></button>
                 </div>
             </div>
         )

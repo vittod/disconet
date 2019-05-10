@@ -17,11 +17,13 @@ export default class ProfileEdit extends React.Component {
         return (
             <div>
                 <div>
-                    this is your fancy bio.. <br />
+                    <h4>this is your fancy bio.. </h4>
                     {profile.bio} <br />
-                    heres some personal data.. <br />
-                    city {profile.city} <br />
-                    age {profile.age}
+                    <h4>personal data.. </h4>
+                    <p>
+                        city {profile.city} <br />
+                        age {profile.age} 
+                    </p>
                 </div>
                 <div>
                     <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }><i className="fas fa-edit"></i> like to edit?</button>    
@@ -34,7 +36,7 @@ export default class ProfileEdit extends React.Component {
         return (
             <div>
                 <div className="bio-area">
-                    here could go your fancy bio..
+                <h4>here could go your fancy bio.. </h4>
                 </div>
                 <div>
                     <button onClick={ () => this.setState({showEditor: !this.state.showEditor}) }><i className="fas fa-user-edit"></i> like to add?</button>
@@ -48,7 +50,7 @@ export default class ProfileEdit extends React.Component {
             <>
                 {this.props.profile &&
                 <div className="profile-render">
-                    <h3>Hello {this.props.profile.first} {this.props.profile.last} </h3>
+                    <h2>Hello <span className="title-font"> {this.props.profile.first} {this.props.profile.last} </span> </h2>
                     {this.props.profile.bio ? this.renderProfile(this.props.profile) : this.renderDefault()}
                     {this.state.showEditor && 
                         <ProfileModal profile={this.props.profile} refreshProfile={this.props.refreshProfile} closeModal={() => this.setState({showEditor: false})} />

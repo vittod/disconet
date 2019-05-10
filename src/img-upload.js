@@ -125,7 +125,7 @@ class ImgUpload extends React.Component {
                 </div>}
 
                 {!this.props.boothPhoto && this.state.showLoader && 
-                <div id="box-uploading">
+                <div id="box-uploading" className="button-full">
                     <i className="fas fa-sync-alt fa-spin"></i>
                 </div>}
 
