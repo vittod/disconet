@@ -98,10 +98,10 @@ imgRouter.post('/api/postImg', guard, uploader.single('iFile'), s3.upload, (req,
 
 imgRouter.post('/api/deleteImg', guard, s3.deleteImg, (req, res) => {
     if (req.body.delId) {
-        console.log('deleting..', req.body.delId);
+        // console.log('deleting..', req.body.delId);
         db.deleteRow('images', 'id_img', req.body.delId)
             .then(({data}) => {
-                // console.log('del img', data);
+                console.log('del img', data);
                 res.json(data)
             })
             .catch(err => console.log('del err..', err))

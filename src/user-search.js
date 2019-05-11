@@ -24,7 +24,6 @@ class UserSearch extends React.Component {
 
     sentRangeReq(e) {
         e.preventDefault()
-        console.log('req field', e.target.value)
         socket.emit('getUserRange', e.target.value)
     }
 
@@ -42,10 +41,19 @@ class UserSearch extends React.Component {
                     {this.props.usersRange && 
                     this.props.usersRange.map((el, i) => {
                         return (
-                        <Link key={i} to={`/user/${el.id_user}`}>
-                            <ProfilePic avatar={el.url} />
-                        </Link>
-                    )}) }
+                            <div className="search-card" key={i}> 
+                                <Link to={`/user/${el.id_user}`}>
+                                    <ProfilePic avatar={el.url} />
+                                </Link>
+                                <div className="card-body">
+                                    <h4>
+                                        {el.first} <br />
+                                        {el.last} 
+                                    </h4>
+                                </div>
+                            </div>
+                        )
+                    }) }
                 </div>
             </>
         )

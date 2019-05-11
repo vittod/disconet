@@ -11,10 +11,8 @@ export default class ImgDisplay extends React.Component {
     }
 
     async deleteImg(id, url) {
-        console.log('deleto', id, url)
         try {
             let resp = await axios.post('/api/deleteImg', {delId: id, delUrl: url})        
-            console.log(resp)
             this.props.triggerRefresh()
         } catch (err) {
             console.log('err on delete', err)

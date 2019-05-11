@@ -284,7 +284,7 @@ main {
 } 
 
 
-.friend-card {
+.friend-card, .search-card {
     width: 150px;
     display: grid;
     grid-template: 2fr 0.5fr / 1fr 2fr;
@@ -292,6 +292,9 @@ main {
     border-radius: 5px;
     padding: 4px;
     margin: 2px;
+}
+.search-card {
+    grid-template: 2fr / 1fr 2fr;
 }
 .card-body {
     display: flex;
@@ -334,6 +337,7 @@ main {
 
 .active-users {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 5px;
     margin-right: 1%;
     margin-left: 1%;

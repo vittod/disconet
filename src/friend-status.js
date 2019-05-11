@@ -41,7 +41,6 @@ export default class FriendStatus extends React.Component {
     async makeFriendReq() {
         let fReq = await axios.post('/api/makeFriendReq', {id: this.props.idFriend})
         try {
-            console.log(fReq.data)
             if (fReq.data.success === true) {
                 this.setState({
                     status: 'pending',
@@ -58,7 +57,6 @@ export default class FriendStatus extends React.Component {
     async answerFriendReq() {
         let aReq = await axios.post('/api/answerFriendReq', {id: this.props.idFriend})
         try {
-            console.log(aReq.data)
             if (aReq.data.success === true) {
                 this.setState({
                     status: 'friends',

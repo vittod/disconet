@@ -50,7 +50,6 @@ class PhotoBooth extends React.Component {
     
     convertAndBuffer() {
         this.canvas.toBlob((blob) => {
-            console.log('in', blob)
             this.props.dispatch(setBoothPhoto({
                 blob: blob,
                 photo: this.canvas.toDataURL(Image)

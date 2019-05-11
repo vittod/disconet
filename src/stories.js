@@ -32,10 +32,8 @@ class Stories extends React.Component {
     }
 
     async getStories() {
-        console.log('idfriend', this.props.idFriend)
         try {
             let {data} = await axios.get(`/api/getUserStory/${this.props.idFriend}`)
-            console.log('got story..', data.story)
             this.setState({allStories: data.story})            
         } catch (err) {
             console.log('err get stories..', err)
@@ -50,7 +48,6 @@ class Stories extends React.Component {
                 imgId: imgId                         
             })
             socket.emit('refreshStory', this.props.idFriend)  ////send refresh request to server..
-            console.log('res post..', res)
             this.inputField.value = ''
             this.setState({story: ''})
         } catch (err) {
@@ -69,12 +66,10 @@ class Stories extends React.Component {
         let upData = new FormData();
         upData.append('iUser', this.props.user.id_user);  
         upData.append('iFile', this.props.boothPhoto.blob);
-        console.log('upload..', upData)
         axios.post('/api/postImg', upData)                
             .then(({data}) => {
                 if (data) {
                     this.handleStory(data.imgId.rows[0].id_img)
-                    console.log('post img success..', data.imgId.rows[0].id_img);
                     this.setState({
                         showLoader: false,
                     })
@@ -99,7 +94,6 @@ class Stories extends React.Component {
                 <div className="inner-wall">
                     {this.state.allStories && 
                     this.state.allStories.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).map((el, i, arr) => {
-                        console.log('loggin render', el)
                         return (
                         
                             <div className="story" key={i}>

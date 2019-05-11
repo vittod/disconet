@@ -50,7 +50,6 @@ class App extends React.Component {
         try {
             let {data} = await axios.get('/api/getProfile')
             this.props.dispatch(setUser(data[0]))
-            console.log('parent', this.state.profile);
             
         } catch (err) {
             console.log(err);

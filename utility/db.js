@@ -95,7 +95,7 @@ exports.getRecentUsers = () => {
         LEFT JOIN images
         ON avatar = images.id_img
         ORDER BY id_user DESC
-        LIMIT 10;`
+        LIMIT 20;`
 
     return db.query(q)
 }
@@ -119,7 +119,7 @@ exports.getQueryUsers = (str) => {
         WHERE first_name ILIKE $1
         OR last_name ILIKE $1
         ORDER BY id_user DESC
-        LIMIT 4;
+        LIMIT 5;
     `;
 
     return db.query(q, params)

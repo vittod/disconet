@@ -59,11 +59,9 @@ class ImgUpload extends React.Component {
             let upData = new FormData();
             upData.append('iUser', this.props.user.id_user);  
             upData.append('iFile', el);
-            console.log('upload..', upData)
             return axios.post('/api/postImg', upData)                
         }))
             .then((resp) => {
-                console.log('post img success..', resp);
                 if (resp.status === 200 || resp[0].status === 200) {
                     this.setState({
                         showLoader: false,

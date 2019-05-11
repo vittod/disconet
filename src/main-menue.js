@@ -19,7 +19,6 @@ class MainMenue extends React.Component {
     render() {
         return (
             <>
-            {/* <div className="modal-outer"> */}
                 <div className="main-menue">
                     <i className="exitor fas fa-times" onClick={this.closeMenue} />
                     <Link to="/" onClick={this.closeMenue}><i className="fas fa-home orange"></i> Home</Link>
@@ -28,7 +27,6 @@ class MainMenue extends React.Component {
                     <Link to="/chat" onClick={this.closeMenue}><i className="fas fa-comment-dots orange"></i> chat</Link>
                     <a className="orange" href="/logout" onClick={this.closeMenue}><i className="fas fa-sign-out-alt orange" /> logout</a>
                 </div>
-            {/* </div> */}
             </>
         )
     }

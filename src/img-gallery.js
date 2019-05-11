@@ -24,7 +24,6 @@ class ImgGallery extends React.Component {
     getAllImg() {
         axios.get('/api/getImgByUserAll')   
             .then(({data}) => {
-                // console.log('resp..', data)
                 this.setState({images: data})    
             
             })
@@ -36,14 +35,16 @@ class ImgGallery extends React.Component {
         return (
             <div className="img-gallery">
                 {this.state.images.map((el, i) => {
-                    return <ImgDisplay 
-                                url={el.url} 
-                                key={i} 
-                                imgNo={i} 
-                                imgId={el.id_img} 
-                                setAvatar={this.props.setAvatar} 
-                                triggerRefresh={this.getAllImg} 
-                            />
+                    return (
+                        <ImgDisplay 
+                            url={el.url} 
+                            key={i} 
+                            imgNo={i} 
+                            imgId={el.id_img} 
+                            setAvatar={this.props.setAvatar} 
+                            triggerRefresh={this.getAllImg} 
+                        />
+                    )
                 })}
             </div>
         )

@@ -1,6 +1,6 @@
 const {app} = require('../index')
 const server = require('http').Server(app)
-const io = module.exports.io = require('socket.io')(server, {origins: 'localhost:8080 disconet.herokuapp.com:*'}) /////////////// change this to proper url
+const io = module.exports.io = require('socket.io')(server, {origins: 'localhost:8080 disconet.herokuapp.com:*'}) 
 
 const redis = require('../redis') 
 const db = require('../utility/db')

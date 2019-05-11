@@ -28,7 +28,6 @@ class Friends extends React.Component {
     async answerFriendReq(idFriend) {
         let aReq = await axios.post('/api/answerFriendReq', {id: idFriend})
         try {
-            console.log(aReq.data)
             if (aReq.data.success === true) {
                 this.refresh()
             } else if (fReq.data.success === false) {
@@ -42,7 +41,6 @@ class Friends extends React.Component {
     async cancelFriendship(idFriend) {
         let cReq = await axios.post('/api/cancelFriendship', {id: idFriend})
         try {
-            console.log(cReq.data)
             if (cReq.data.success === true) {
                 this.refresh()
             } else if (cReq.data.success === false) {
@@ -62,7 +60,6 @@ class Friends extends React.Component {
                     <div className="friends">
                         
                         {this.props.friends.success ? this.props.friends.data.map((el, i) => {
-                            console.log('friend', this.props.friends)
                             return (
                                 <div className="friend-card" key={i}> 
                                     <Link to={`/user/${el.id_user}`}>
