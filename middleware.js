@@ -53,7 +53,7 @@ exports.guard = (req, res, next) => req.session.isLoggedIn ? next() : res.status
 
 exports.validateUserInput = (req, res, next) => {
     console.log('middle', req.body)
-    if (req.path === '/register') {
+    if (req.path === '/api/register') {
         if (req.body.email && req.body.password && req.body.first && req.body.last) {
             if (
                 uIf.sanitizer(req.body.first) === req.body.first
@@ -76,7 +76,7 @@ exports.validateUserInput = (req, res, next) => {
                 msg: 'all fields are required'
             })
         }
-    } else if (req.path === '/login') {
+    } else if (req.path === '/api/login') {
         if (req.body.email && req.body.password) {
             uIf.mailValid(req.body.email) ? next() : res.json({
                 isLoggedIn: false,
